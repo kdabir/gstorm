@@ -10,7 +10,7 @@ What good a Single Table ORM would do?
 - Can still fire complex SQL queries that would have been difficult in NoSQL or plain collection backed DBs
 - typically would be useful in scripts, Not much of multi-layered web applications or any complex scenario.
 
-This is just the basic idea. ~~I have not yet written a single line of code yet :) ~~
+This is just the basic idea. ~~I have not yet written a single line of code yet :)~~
 
 Plan to use HSQLDB internally
 

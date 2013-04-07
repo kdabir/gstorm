@@ -1,2 +1,7 @@
 .DS_STORE
 *~
+.idea
+*.iml
+.gradle
+build
+out

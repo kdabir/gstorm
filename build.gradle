@@ -1,0 +1,18 @@
+apply plugin: 'groovy'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+sourceSets {
+    main.groovy.srcDir 'src'
+    test.groovy.srcDir 'test'
+
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.1.1',
+            'org.hsqldb:hsqldb:2.2.9'
+    testCompile 'junit:junit:4.10'
+}

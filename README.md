@@ -2,7 +2,7 @@ GStorm - Groovy Single Table ORM
 ---
 Gstorm is very light persitence helper for simple scenarios such as groovy scripts.
 
-Simple example :
+### Simple example
 
 ```groovy
 class Person { String name, project } // this is your model class
@@ -32,8 +32,6 @@ What good a Single Table ORM would do?
 - Typically this would be useful in scripts, Not in multi-layered web applications or any complex scenario
 - Doesn't handle any relationships or complex data types
 
-This is just the basic idea. ~~I have not yet written a single line of code yet :)~~
-
 Gstorm uses HSQLDB syntax internally.
 
 ---------------
@@ -41,6 +39,18 @@ Gstorm uses HSQLDB syntax internally.
 ##Getting started
 
 Just execute `groovy https://raw.github.com/kdabir/gstorm/master/examples/getting_started.groovy` from the command line (provided you have [groovy installed](http://groovy.codehaus.org/Installing+Groovy) )
+
+Grab GStorm using 
+```groovy
+@GrabResolver(name='gstorm', root='https://raw.github.com/kdabir/mavenrepo/gh-pages/') @Grab('gstorm:gstorm:0.1')
+```
+
+Include hsqldb
+```groovy
+@GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.0.0')
+```
+
+Just go through the [example's source ](blob/master/examples/getting_started.groovy) and start having fun
 
 ---------------
 

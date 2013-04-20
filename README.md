@@ -19,7 +19,7 @@ println result
 #### Running it
 To see gstorm in action just execute following from command line:
 
-```shell
+```bash
 groovy https://raw.github.com/kdabir/gstorm/master/examples/getting_started.groovy
 ``` 
 
@@ -64,9 +64,9 @@ and gstormify your model
 new Gstorm(sql).stormify(Person) 
 ```
 
-where sql is an instance of `groovy.sql.Sql`
+where `sql` is an instance of `groovy.sql.Sql`
 
-Just go through the [example's source ](blob/master/examples/getting_started.groovy) and have fun
+Just go through the [example's source ](blob/master/examples/getting_started.groovy) and [test](blob/master/test/gstorm/GstormTest.groovy) and have fun.
 
 ---
 

@@ -2,8 +2,6 @@ GStorm - Groovy Single Table ORM
 ---
 Gstorm is very light persitence helper for simple scenarios such as groovy scripts.
 
-### Simple example
-
 ```groovy
 class Person { String name, project } // this is your model class
 
@@ -23,7 +21,7 @@ Gstorm take very simple approach to solve this problem by focusing just on needs
 
 The market is already flooded with ORMs and NoSQL databases. It's pointless to introduce anything that's heavy, complex, rigid and tries to solve all the problems in the world. 
 
-What good a Single Table ORM would do? 
+#### What good a Single Table ORM would do? 
 
 - Creates Tables for you
 - Allows you to persist objects without worrying about CRUD SQL statements (so cliche !!)

@@ -19,18 +19,20 @@ Gstorm uses HSQLDB syntax internally.
 
 Simple example :
 
-    @GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.0.0')
-    import groovy.sql.Sql
-    def sql = Sql.newInstance("jdbc:hsqldb:mem:database", "sa", "", "org.hsqldb.jdbcDriver")
+```groovy
+@GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.0.0')
+import groovy.sql.Sql
+def sql = Sql.newInstance("jdbc:hsqldb:mem:database", "sa", "", "org.hsqldb.jdbcDriver")
 
-    // this is your model class
-    class Person { String name, project }
+// this is your model class
+class Person { String name, project }
 
-    def g = new Gstorm(sql)
-    g.stormify(Person) // table automatically gets created for this class
+def g = new Gstorm(sql)
+g.stormify(Person) // table automatically gets created for this class
 
-    def person = new Person(name: "kunal", project: "gstorm")
-    person.save() // model automatically gets this method
+def person = new Person(name: "kunal", project: "gstorm")
+person.save() // model automatically gets this method
 
-    def result = Person.where("name = 'kunal'") // pass any standard SQL where clause
-    println result
+def result = Person.where("name = 'kunal'") // pass any standard SQL where clause
+println result
+```

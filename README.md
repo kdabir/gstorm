@@ -66,7 +66,7 @@ new Gstorm(sql).stormify(Person)
 
 where `sql` is an instance of `groovy.sql.Sql`
 
-Just go through the [example's source ](blob/master/examples/getting_started.groovy) and [test](blob/master/test/gstorm/GstormTest.groovy) and have fun.
+Just go through the [example's source ](examples/getting_started.groovy) and [test](test/gstorm/GstormTest.groovy) and have fun.
 
 ---
 

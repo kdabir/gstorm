@@ -2,6 +2,7 @@ GStorm - Groovy Single Table ORM
 ---
 Gstorm is very light persitence helper for simple scenarios such as groovy scripts.
 
+#### Example
 ```groovy
 class Person { String name, project } // this is your model class
 
@@ -14,6 +15,17 @@ person.save() // model automatically gets this method, which saves it to db
 def result = Person.where("name = 'kunal'") // pass any standard SQL where clause
 println result
 ```
+
+#### Running it
+To see gstorm in action just execute following from command line:
+
+```shell
+groovy https://raw.github.com/kdabir/gstorm/master/examples/getting_started.groovy
+``` 
+
+Provided you have [groovy installed](http://groovy.codehaus.org/Installing+Groovy), you dont need to install anything else.
+
+----
 
 In groovy scripts, when you need persistence, and you often feel hibernate is overkill but handwritten SQL is headache. You don't want to connect to external Database server and still wish you could just create a table and save objects as quickly as possible. You hate writing SQL for trivial CRUD but still want to be able to harness the power of SQL when need be. You can then try Gstorm.
 
@@ -32,11 +44,9 @@ The market is already flooded with ORMs and NoSQL databases. It's pointless to i
 
 Gstorm uses HSQLDB syntax internally.
 
----------------
+---
 
 ##Getting started
-
-Just execute `groovy https://raw.github.com/kdabir/gstorm/master/examples/getting_started.groovy` from the command line (provided you have [groovy installed](http://groovy.codehaus.org/Installing+Groovy) )
 
 Grab GStorm using 
 ```groovy
@@ -48,9 +58,17 @@ Include hsqldb
 @GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.0.0')
 ```
 
-Just go through the [example's source ](blob/master/examples/getting_started.groovy) and start having fun
+and gstormify your model
 
----------------
+```groovy
+new Gstorm(sql).stormify(Person) 
+```
+
+where sql is an instance of `groovy.sql.Sql`
+
+Just go through the [example's source ](blob/master/examples/getting_started.groovy) and have fun
+
+---
 
 ## Project status
 

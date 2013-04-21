@@ -30,7 +30,8 @@ class Gstorm {
         def table_name = modelClass.simpleName
 
         def column_defs = modelClass.declaredFields.findAll { !it.synthetic }.collect { "${it.name} ${getTypeMapping(it.type)}" }.join(", ")
-        final ddl = "CREATE TABLE $table_name ($column_defs)".toString()
+        def id_column_def = "id NUMERIC GENERATED ALWAYS AS IDENTITY PRIMARY KEY"
+        final ddl = "CREATE TABLE $table_name ($id_column_def, $column_defs)".toString()
         println ddl
         sql.execute(ddl)
     }
@@ -48,13 +49,15 @@ class Gstorm {
         def table_name = modelClass.simpleName
         final fields = modelClass.declaredFields.findAll { !it.synthetic }.collect { it.name}
         def columns = fields.join ","
+        modelClass.metaClass.id = null // add id
 
         modelClass.metaClass.save = {
             def values = fields.collect { "'${delegate.getProperty(it)}'" }.join(",")
 
             final insertStmt = "INSERT INTO $table_name ($columns) values ($values)".toString()
             println insertStmt
-            sql.executeInsert(insertStmt)
+            def generted_id = sql.executeInsert(insertStmt)
+            delegate.id = generted_id
         }
     }
 

@@ -52,12 +52,19 @@ class Gstorm {
         modelClass.metaClass.id = null // add id
 
         modelClass.metaClass.save = {
-            def values = fields.collect { "'${delegate.getProperty(it)}'" }.join(",")
-
-            final insertStmt = "INSERT INTO $table_name ($columns) values ($values)".toString()
-            println insertStmt
-            def generted_id = sql.executeInsert(insertStmt)
-            delegate.id = generted_id
+            if (delegate.id == null) {
+                def values = fields.collect { "'${delegate.getProperty(it)}'" }.join(",")
+                final insertStmt = "INSERT INTO $table_name ($columns) values ($values)".toString()
+                println insertStmt
+                def generted_ids = sql.executeInsert(insertStmt)
+                delegate.id = generted_ids[0][0]
+            } else {
+                def values = fields.collect { "${it}='${delegate.getProperty(it)}'" }.join(" ,")
+                final updateStmt = "UPDATE $table_name SET $values WHERE ID=${delegate.id}".toString()
+                println updateStmt
+                sql.executeUpdate(updateStmt)
+            }
+            delegate
         }
     }
 

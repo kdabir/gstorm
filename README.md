@@ -72,4 +72,7 @@ Just go through the [example's source ](examples/getting_started.groovy) and [te
 
 ## Project status
 
+[![Build Status](https://travis-ci.org/kdabir/gstorm.png)](https://travis-ci.org/kdabir/gstorm)
+
+
 Gstorm is just few days old and few groovy lines long. There is long list of items that I would want to complete before calling it feature complete. The project is in development mode and should not be used in any production scenarios.

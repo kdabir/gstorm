@@ -45,10 +45,11 @@ class Gstorm {
     }
 
     def addInstanceDmlMethodsTo(Class modelClass) {
+        def table_name = modelClass.simpleName
+        final fields = modelClass.declaredFields.findAll { !it.synthetic }.collect { it.name}
+        def columns = fields.join ","
+
         modelClass.metaClass.save = {
-            def table_name = delegate.class.simpleName
-            final fields = delegate.class.declaredFields.findAll { !it.synthetic }.collect { it.name}
-            def columns = fields.join ","
             def values = fields.collect { "'${delegate.getProperty(it)}'" }.join(",")
 
             final insertStmt = "INSERT INTO $table_name ($columns) values ($values)".toString()

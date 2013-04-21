@@ -30,8 +30,8 @@ class Gstorm {
         def table_name = modelClass.simpleName
 
         def column_defs = modelClass.declaredFields.findAll { !it.synthetic }.collect { "${it.name} ${getTypeMapping(it.type)}" }.join(", ")
-        def id_column_def = "id NUMERIC GENERATED ALWAYS AS IDENTITY PRIMARY KEY"
-        final ddl = "CREATE TABLE $table_name ($id_column_def, $column_defs)".toString()
+        def id_column_def = "ID NUMERIC GENERATED ALWAYS AS IDENTITY PRIMARY KEY"
+        final ddl = "CREATE TABLE IF NOT EXISTS $table_name ($id_column_def, $column_defs)".toString()
         println ddl
         sql.execute(ddl)
     }

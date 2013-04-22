@@ -50,12 +50,12 @@ Gstorm uses HSQLDB syntax internally.
 
 Grab GStorm using 
 ```groovy
-@GrabResolver(name='gstorm', root='https://raw.github.com/kdabir/mavenrepo/gh-pages/') @Grab('gstorm:gstorm:0.1')
+@GrabResolver(name='gstorm', root='http://kdabir.github.io/mavenrepo/') @Grab('gstorm:gstorm:0.1')
 ```
 
 Include hsqldb
 ```groovy
-@GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.0.0')
+@GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.2.9')
 ```
 
 and gstormify your model

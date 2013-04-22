@@ -65,6 +65,23 @@ class GstormTest extends GroovyTestCase {
         sql.eachRow("select *  from person") { assert it.name == 'Batman' }
     }
 
+    // context : delete
+    void "test delete if object has id"() {
+        def person = new Person(name: 'Spiderman', age: 30).save()
+        person.delete()
+
+        assert sql.rows("select count(*) as total_count from person").total_count == [0]
+    }
+
+    void "test should not delete if object is not saved"() {
+        def person = new Person(name: 'Spiderman', age: 30)
+        assert sql.rows("select count(*) as total_count from person").total_count == [0]
+        person.delete()
+
+        assert sql.rows("select count(*) as total_count from person").total_count == [0]
+    }
+
+
     // context : where
     void "test where selects from table with where clause"() {
         new Person(name: 'Batman', age: 35).save()

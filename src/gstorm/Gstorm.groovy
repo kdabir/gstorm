@@ -66,6 +66,15 @@ class Gstorm {
             }
             delegate
         }
+
+        modelClass.metaClass.delete = {
+            if (delegate.id != null) {
+                final deleteStmt = "DELETE FROM $table_name WHERE ID=${delegate.id}".toString()
+                println deleteStmt
+                sql.execute(deleteStmt)
+            }
+            delegate
+        }
     }
 
 }

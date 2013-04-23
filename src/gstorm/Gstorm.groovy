@@ -1,7 +1,9 @@
 package gstorm
 
 import groovy.sql.Sql
+import groovy.util.logging.Log
 
+@Log
 class Gstorm {
     Sql sql
 
@@ -10,6 +12,7 @@ class Gstorm {
     }
 
     def stormify(Class c) {
+        enableQueryLogging()
         createTableFor(c)
         addStaticDmlMethodsTo(c)
         addInstanceDmlMethodsTo(c)
@@ -25,30 +28,23 @@ class Gstorm {
         type_mappings[it] ?: "VARCHAR(255)"
     }
 
-
     def createTableFor(Class modelClass) {
         def table_name = modelClass.simpleName
-
         def column_defs = modelClass.declaredFields.findAll { !it.synthetic }.collect { "${it.name} ${getTypeMapping(it.type)}" }.join(", ")
         def id_column_def = "ID NUMERIC GENERATED ALWAYS AS IDENTITY PRIMARY KEY"
-        final ddl = "CREATE TABLE IF NOT EXISTS $table_name ($id_column_def, $column_defs)".toString()
-        println ddl
-        sql.execute(ddl)
+
+        sql.execute("CREATE TABLE IF NOT EXISTS $table_name ($id_column_def, $column_defs)".toString())
     }
 
     def addStaticDmlMethodsTo(Class modelClass) {
         modelClass.metaClass.static.where = { clause ->
             def table_name = delegate.simpleName
-            final query = "SELECT * FROM $table_name WHERE $clause".toString()
-            println query
-            sql.rows(query)
+            sql.rows("SELECT * FROM $table_name WHERE $clause".toString())
         }
 
          def getAll = {
             def table_name = delegate.simpleName
-            final query = "SELECT * FROM $table_name".toString()
-            println query
-            sql.rows(query)
+             sql.rows("SELECT * FROM $table_name".toString())
         }
         // alias
         modelClass.metaClass.static.getAll = getAll
@@ -64,27 +60,29 @@ class Gstorm {
         modelClass.metaClass.save = {
             if (delegate.id == null) {
                 def values = fields.collect { "'${delegate.getProperty(it)}'" }.join(",")
-                final insertStmt = "INSERT INTO $table_name ($columns) values ($values)".toString()
-                println insertStmt
-                def generted_ids = sql.executeInsert(insertStmt)
+                def generted_ids = sql.executeInsert("INSERT INTO $table_name ($columns) values ($values)".toString())
                 delegate.id = generted_ids[0][0]
             } else {
                 def values = fields.collect { "${it}='${delegate.getProperty(it)}'" }.join(" ,")
-                final updateStmt = "UPDATE $table_name SET $values WHERE ID=${delegate.id}".toString()
-                println updateStmt
-                sql.executeUpdate(updateStmt)
+                sql.executeUpdate("UPDATE $table_name SET $values WHERE ID=${delegate.id}".toString())
             }
             delegate
         }
 
         modelClass.metaClass.delete = {
             if (delegate.id != null) {
-                final deleteStmt = "DELETE FROM $table_name WHERE ID=${delegate.id}".toString()
-                println deleteStmt
-                sql.execute(deleteStmt)
+                sql.execute("DELETE FROM $table_name WHERE ID=${delegate.id}".toString())
             }
             delegate
         }
     }
 
+    def enableQueryLogging() {
+        def sqlMetaClass = Sql.class.metaClass
+
+        sqlMetaClass.invokeMethod = { String name, args ->
+            if (args) log.fine args.first() // so far the first arg has been the query.
+            sqlMetaClass.getMetaMethod(name, args).invoke(delegate, args)
+        }
+    }
 }

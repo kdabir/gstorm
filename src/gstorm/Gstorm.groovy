@@ -2,6 +2,7 @@ package gstorm
 
 import groovy.sql.Sql
 import groovy.util.logging.Log
+import java.util.logging.Level
 
 @Log
 class Gstorm {
@@ -12,7 +13,6 @@ class Gstorm {
     }
 
     def stormify(Class c) {
-        enableQueryLogging()
         createTableFor(c)
         addStaticDmlMethodsTo(c)
         addInstanceDmlMethodsTo(c)
@@ -81,11 +81,11 @@ class Gstorm {
         }
     }
 
-    def enableQueryLogging() {
+    def enableQueryLogging(level = Level.FINE) {
         def sqlMetaClass = Sql.class.metaClass
 
         sqlMetaClass.invokeMethod = { String name, args ->
-            if (args) log.fine args.first() // so far the first arg has been the query.
+            if (args) log.log(level, args.first()) // so far the first arg has been the query.
             sqlMetaClass.getMetaMethod(name, args).invoke(delegate, args)
         }
     }

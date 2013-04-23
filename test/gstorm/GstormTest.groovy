@@ -96,4 +96,19 @@ class GstormTest extends GroovyTestCase {
 
         assert Person.all.collect {it.name} == sql.rows("select * from person").collect {it.name}
     }
+
+    // context : find
+    void "test get should find model by id"() {
+        def batman = new Person(name: 'Batman', age: 35).save()
+        def spiderman = new Person(name: 'Spiderman', age: 30).save()
+
+        assert Person.get(batman.id).name == "Batman"
+    }
+
+    void "test find model by id when id doesnt exist"() {
+        def batman = new Person(name: 'Batman', age: 35).save()
+        def spiderman = new Person(name: 'Spiderman', age: 30).save()
+
+        assert Person.get(123) == null // lets not complecate it by exceptions
+    }
 }

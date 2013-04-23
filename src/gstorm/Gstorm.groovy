@@ -37,13 +37,18 @@ class Gstorm {
     }
 
     def addStaticDmlMethodsTo(Class modelClass) {
+        final table_name = modelClass.simpleName
+
         modelClass.metaClass.static.where = { clause ->
-            def table_name = delegate.simpleName
             sql.rows("SELECT * FROM $table_name WHERE $clause".toString())
         }
 
-         def getAll = {
-            def table_name = delegate.simpleName
+        modelClass.metaClass.static.get = { id ->
+            final result = sql.rows("SELECT * FROM $table_name WHERE ID = $id".toString())
+            (result) ? result.first() : null
+        }
+
+        def getAll = {
              sql.rows("SELECT * FROM $table_name".toString())
         }
         // alias

@@ -43,6 +43,16 @@ class Gstorm {
             println query
             sql.rows(query)
         }
+
+         def getAll = {
+            def table_name = delegate.simpleName
+            final query = "SELECT * FROM $table_name".toString()
+            println query
+            sql.rows(query)
+        }
+        // alias
+        modelClass.metaClass.static.getAll = getAll
+        modelClass.metaClass.static.all = getAll
     }
 
     def addInstanceDmlMethodsTo(Class modelClass) {

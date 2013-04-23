@@ -81,12 +81,19 @@ class GstormTest extends GroovyTestCase {
         assert sql.rows("select count(*) as total_count from person").total_count == [0]
     }
 
-
     // context : where
     void "test where selects from table with where clause"() {
         new Person(name: 'Batman', age: 35).save()
         new Person(name: 'Spiderman', age: 30).save()
 
         assert Person.where("age > 30").collect {it.name} == ["Batman"]
+    }
+
+    // context : get all
+    void "test all lists all records in table"() {
+        new Person(name: 'Batman', age: 35).save()
+        new Person(name: 'Spiderman', age: 30).save()
+
+        assert Person.all.collect {it.name} == sql.rows("select * from person").collect {it.name}
     }
 }

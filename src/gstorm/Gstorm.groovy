@@ -22,8 +22,8 @@ class Gstorm {
     static {
         type_mappings[Integer.TYPE] = "NUMERIC"
         type_mappings[Long.TYPE] = "NUMERIC"
-
     }
+
     static String getTypeMapping(it) {
         type_mappings[it] ?: "VARCHAR(255)"
     }
@@ -49,7 +49,7 @@ class Gstorm {
         }
 
         def getAll = {
-             sql.rows("SELECT * FROM $table_name".toString())
+            sql.rows("SELECT * FROM $table_name".toString())
         }
         // alias
         modelClass.metaClass.static.getAll = getAll
@@ -57,27 +57,26 @@ class Gstorm {
     }
 
     def addInstanceDmlMethodsTo(Class modelClass) {
-        def table_name = modelClass.simpleName
-        final fields = modelClass.declaredFields.findAll { !it.synthetic }.collect { it.name}
-        def columns = fields.join ","
+        final table_name = modelClass.simpleName
+        final fields = modelClass.declaredFields.findAll { !it.synthetic }.collect { it.name }
+
         modelClass.metaClass.id = null // add id
 
         modelClass.metaClass.save = {
             if (delegate.id == null) {
-                def values = fields.collect { "'${delegate.getProperty(it)}'" }.join(",")
-                def generted_ids = sql.executeInsert("INSERT INTO $table_name ($columns) values ($values)".toString())
+                final columns = fields.join ", "
+                final values = fields.collect { "'${delegate.getProperty(it)}'" }.join(", ")
+                final generted_ids = sql.executeInsert("INSERT INTO $table_name ($columns) values ($values)".toString())
                 delegate.id = generted_ids[0][0]
             } else {
-                def values = fields.collect { "${it}='${delegate.getProperty(it)}'" }.join(" ,")
-                sql.executeUpdate("UPDATE $table_name SET $values WHERE ID=${delegate.id}".toString())
+                final values = fields.collect { "${it} = '${delegate.getProperty(it)}'" }.join(", ")
+                sql.executeUpdate("UPDATE $table_name SET $values WHERE ID = ${delegate.id}".toString())
             }
             delegate
         }
 
         modelClass.metaClass.delete = {
-            if (delegate.id != null) {
-                sql.execute("DELETE FROM $table_name WHERE ID=${delegate.id}".toString())
-            }
+            if (delegate.id != null) { sql.execute("DELETE FROM $table_name WHERE ID = ${delegate.id}".toString()) }
             delegate
         }
     }

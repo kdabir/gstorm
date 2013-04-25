@@ -9,7 +9,6 @@ repositories {
 sourceSets {
     main.groovy.srcDir 'src'
     test.groovy.srcDir 'test'
-
 }
 
 dependencies {
@@ -19,7 +18,7 @@ dependencies {
 }
 
 group = 'gstorm'
-version = '0.2'
+version = '0.3'
 
 publishing {
     publications {

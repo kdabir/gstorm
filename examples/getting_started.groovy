@@ -1,4 +1,4 @@
-@GrabResolver(name='gstorm', root='http://kdabir.github.io/mavenrepo/') @Grab('gstorm:gstorm:0.1')
+@GrabResolver(name='gstorm', root='http://kdabir.github.io/mavenrepo/') @Grab('gstorm:gstorm:0.3')
 @GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.2.9')
 import groovy.sql.*
 import gstorm.*
@@ -13,7 +13,19 @@ g.stormify(Person) // table automatically gets created for this class
 def person = new Person(name: "kunal", project: "gstorm")
 person.save() // model automatically gets this method
 
-new Person(name: "test", project: "other").save() // save one more
+def other = new Person(name: "other", project: "test").save() // save one more
+println "added ${other.name} to project ${other.project}"
 
-def result = Person.where("name = 'kunal'") // pass any standard SQL where clause
-println "result -> $result"
+other.project = "gstorm"
+other.save() // update it
+
+println "all records -> ${Person.all}"
+
+Person.where("project = 'gstorm'").each { // pass any standard SQL where clause
+    println "${it.name} is working on gstorm"
+}
+
+println "removing other"
+other.delete()
+
+println "all records -> ${Person.all}"

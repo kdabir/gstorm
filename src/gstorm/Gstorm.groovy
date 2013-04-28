@@ -66,8 +66,8 @@ class Gstorm {
             if (delegate.id == null) {
                 final columns = fields.join ", "
                 final values = fields.collect { "'${delegate.getProperty(it)}'" }.join(", ")
-                final generted_ids = sql.executeInsert("INSERT INTO $table_name ($columns) values ($values)".toString())
-                delegate.id = generted_ids[0][0]
+                final generated_ids = sql.executeInsert("INSERT INTO $table_name ($columns) values ($values)".toString())
+                delegate.id = generated_ids[0][0]
             } else {
                 final values = fields.collect { "${it} = '${delegate.getProperty(it)}'" }.join(", ")
                 sql.executeUpdate("UPDATE $table_name SET $values WHERE ID = ${delegate.id}".toString())

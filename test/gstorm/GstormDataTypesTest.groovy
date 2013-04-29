@@ -1,8 +1,8 @@
 package gstorm
 
 import groovy.sql.Sql
-import java.util.logging.Level
 import java.text.SimpleDateFormat
+import java.util.logging.Level
 
 class GstormDataTypesTest extends GroovyTestCase {
     Gstorm gstorm

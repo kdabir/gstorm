@@ -1,7 +1,7 @@
 package gstorm
 
-import groovy.sql.Sql
 import example.Person
+import groovy.sql.Sql
 
 class GstormTest extends GroovyTestCase {
 

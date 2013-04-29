@@ -1,4 +1,5 @@
 package gstorm
+
 import example.Person
 import groovy.sql.Sql
 
@@ -26,8 +27,8 @@ class GstormPerfTest extends GroovyTestCase {
     }
 
     void printTimeTakenFor(activity) {
-        end =  System.nanoTime()
-        println "Time taken for $activity ${(end-start)/1000000} ms"
+        end = System.nanoTime()
+        println "Time taken for $activity ${(end - start) / 1000000} ms"
     }
 
 }

@@ -18,6 +18,10 @@ class FieldMetaData {
                 break
             case {it in [java.util.Date, java.sql.Timestamp]}: "TIMESTAMP"
                 break
+            case java.sql.Date: "DATE"
+                break
+            case java.sql.Time: "TIME"
+                break
             default: "VARCHAR(255)"
         }
     }

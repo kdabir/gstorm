@@ -23,20 +23,19 @@ class ClassMetaDataTest extends GroovyTestCase {
     }
 
     void "test persistent field names"() {
-        assert metadata.fields.keySet() == ["name", "description", "addedOn"] as Set
-        assert metadata.fields.values()*.name == ["name", "description", "addedOn"]
+        assert metadata.fields*.name == ["name", "description", "addedOn"]
     }
 
     void "test persistent field types"() {
-        assert metadata.fields.values()*.type == [String, Object, Date]
+        assert metadata.fields*.type == [String, Object, Date]
     }
 
     void "test column names"() {
-        assert metadata.fields.values()*.columnName == ["name", "description", "addedOn"]
+        assert metadata.fields*.columnName == ["name", "description", "addedOn"]
     }
 
     void "test column types"() {
-        assert metadata.fields.values()*.columnType == ["VARCHAR(255)", "VARCHAR(255)", "TIMESTAMP"]
+        assert metadata.fields*.columnType == ["VARCHAR(255)", "VARCHAR(255)", "TIMESTAMP"]
     }
 
     void "test map like access to field"() {

@@ -2,18 +2,17 @@ package gstorm
 
 class ClassMetaData {
     final def modelClass, tableName
-    final def fields
+    final List<FieldMetaData> fields
+    private Map _fieldsMap
 
     ClassMetaData(Class modelClass) {
         this.modelClass = modelClass
         this.tableName = modelClass.simpleName
-        this.fields = modelClass.declaredFields.findAll { !it.synthetic }.collectEntries { field ->
-            final metaData = new FieldMetaData(field)
-            [metaData.name, metaData]
-        }
+        this.fields = modelClass.declaredFields.findAll { !it.synthetic }.collect { field ->  new FieldMetaData(field) }
+        this._fieldsMap = this.fields.collectEntries {fieldMetaData->[fieldMetaData.name, fieldMetaData]}
     }
 
-    def getAt(String fieldName){
-        this.fields[fieldName]
+    FieldMetaData getAt(String fieldName){
+        this._fieldsMap[fieldName]
     }
 }

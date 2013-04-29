@@ -20,8 +20,12 @@ class Gstorm {
 
     static def type_mappings = [:]
     static {
-        type_mappings[Integer.TYPE] = "NUMERIC"
-        type_mappings[Long.TYPE] = "NUMERIC"
+        type_mappings[Integer] = "NUMERIC"
+        type_mappings[Long] = "NUMERIC"
+        type_mappings[java.util.Date] = "TIMESTAMP"
+        type_mappings[java.sql.Timestamp] = "TIMESTAMP"
+        type_mappings[java.sql.Date] = "DATE"
+        type_mappings[java.sql.Time] = "TIME"
     }
 
     static String getTypeMapping(it) {
@@ -65,12 +69,14 @@ class Gstorm {
         modelClass.metaClass.save = {
             if (delegate.id == null) {
                 final columns = fields.join ", "
-                final values = fields.collect { "'${delegate.getProperty(it)}'" }.join(", ")
-                final generated_ids = sql.executeInsert("INSERT INTO $table_name ($columns) values ($values)".toString())
+                final placeholders = fields.collect {"?"}.join(", ")
+                final values = fields.collect { delegate.getProperty(it)}
+                final generated_ids = sql.executeInsert("INSERT INTO $table_name ($columns) values (${placeholders})".toString(), values)
                 delegate.id = generated_ids[0][0]
             } else {
-                final values = fields.collect { "${it} = '${delegate.getProperty(it)}'" }.join(", ")
-                sql.executeUpdate("UPDATE $table_name SET $values WHERE ID = ${delegate.id}".toString())
+                final placeholders = fields.collect { "${it} = ?" }.join(", ")
+                final values = fields.collect { delegate.getProperty(it)}
+                sql.executeUpdate("UPDATE $table_name SET $placeholders WHERE ID = ${delegate.id}".toString(), values)
             }
             delegate
         }

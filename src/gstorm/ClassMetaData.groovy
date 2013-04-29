@@ -7,7 +7,7 @@ class ClassMetaData {
 
     ClassMetaData(Class modelClass) {
         this.modelClass = modelClass
-        this.tableName = modelClass.simpleName
+        this.tableName = extractTableName(modelClass)
         this.fields = modelClass.declaredFields.findAll { !it.synthetic }.collect { field ->  new FieldMetaData(field) }
         this._fieldsMap = this.fields.collectEntries {fieldMetaData -> [fieldMetaData.name, fieldMetaData]}
     }
@@ -15,4 +15,9 @@ class ClassMetaData {
     FieldMetaData getAt(String fieldName) {
         this._fieldsMap[fieldName]
     }
+
+    private String extractTableName(Class modelClass) {
+        modelClass.getAnnotation(Table)?.value()?.trim() ?: modelClass.simpleName
+    }
+
 }

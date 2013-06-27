@@ -1,13 +1,17 @@
-@GrabResolver(name='gstorm', root='http://kdabir.github.io/mavenrepo/') @Grab('gstorm:gstorm:0.3')
+@GrabResolver(name='gstorm', root='http://kdabir.github.io/mavenrepo/') @Grab('gstorm:gstorm:0.4')
 @GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.2.9')
 import groovy.sql.*
 import gstorm.*
+import java.util.logging.Level
 
 def sql = Sql.newInstance("jdbc:hsqldb:mem:database", "sa", "", "org.hsqldb.jdbcDriver")
 
+@Table("people")
 class Person { String name, project } // this is your model class
 
 def g = new Gstorm(sql)
+g.enableQueryLogging(Level.INFO)
+
 g.stormify(Person) // table automatically gets created for this class
 
 def person = new Person(name: "kunal", project: "gstorm")

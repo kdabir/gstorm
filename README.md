@@ -53,7 +53,7 @@ rigid and tries to solve all the problems in the world.
 #### What good a Single Table ORM would do? 
 
 - Creates Tables for you
-- Allows you to persist objects without worrying about CRUD SQL statements (so cliche !!)
+- Allows you to persist objects without worrying about CRUD SQL statements
 - Very light layer, no jar baggage
 - Can still fire complex SQL queries that would have been difficult in NoSQL or plain collection backed DBs
 - Typically this would be useful in scripts, Not in multi-layered web applications or any complex scenario
@@ -95,6 +95,12 @@ Just go through the [example's source ](examples/getting_started.groovy) and [te
 Gstorm is just few days old and few groovy lines long. There is long list of items that I would want to complete before calling it feature complete. The project is in development mode and should not be used in any production scenarios.
 
 ## Changelog :
+
+### v0.4
+ - support primitive numbers (int/long). Floating point numbers are stored as string as of yet.
+ - Support table name to be different from the class name. Class can be annotated with @Table("TABLE_NAME") to specify table name.
+ - support date/time to be stored.
+ - internal refactoring
 
 ### v0.3
  - `enableQueryLogging` to enable sql query logging

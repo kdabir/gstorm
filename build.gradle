@@ -1,6 +1,9 @@
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 
+group = 'gstorm'
+version = '0.4'
+
 repositories {
     mavenLocal()
     mavenCentral()
@@ -16,9 +19,6 @@ dependencies {
             'org.hsqldb:hsqldb:2.2.9'
     testCompile 'junit:junit:4.10'
 }
-
-group = 'gstorm'
-version = '0.4-dev'
 
 publishing {
     publications {

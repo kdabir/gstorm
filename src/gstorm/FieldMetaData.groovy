@@ -14,7 +14,7 @@ class FieldMetaData {
 
     private def getTypeMapping(Class type) {
         switch (type) {
-            case {it in [Integer, Long]}: "NUMERIC"
+            case {it in [Integer, Long, int, long]}: "NUMERIC"
                 break
             case {it in [java.util.Date, java.sql.Timestamp]}: "TIMESTAMP"
                 break

@@ -97,8 +97,8 @@ Gstorm is just few days old and few groovy lines long. There is long list of ite
 ## Changelog :
 
 ### v0.4
- - support primitive numbers (int/long). Floating point numbers are stored as string as of yet.
- - Support table name to be different from the class name. Class can be annotated with @Table("TABLE_NAME") to specify table name.
+ - support primitive numbers (`int`/`long`). Floating point numbers are stored as string as of yet.
+ - Support table name to be different from the class name. Class can be annotated with `@Table("TABLE_NAME")` to specify table name.
  - support date/time to be stored.
  - internal refactoring
 

@@ -26,19 +26,18 @@ class Gstorm {
 
     def addStaticDmlMethodsTo(ClassMetaData metaData) {
         final modelMetaClass = metaData.modelClass.metaClass
-        final table_name = metaData.tableName
 
         modelMetaClass.static.where = { clause ->
-            sql.rows("SELECT * FROM $table_name WHERE $clause".toString())
+            sql.rows(new SelectQueryBuilder(metaData).where(clause).build())
         }
 
         modelMetaClass.static.get = { id ->
-            final result = sql.rows("SELECT * FROM $table_name WHERE ID = $id".toString())
+            final result = sql.rows(new SelectQueryBuilder(metaData).where("ID = $id").build())
             (result) ? result.first() : null
         }
 
         def getAll = {
-            sql.rows("SELECT * FROM $table_name".toString())
+            sql.rows(new SelectQueryBuilder(metaData).build())
         }
         // alias
         modelMetaClass.static.getAll = getAll

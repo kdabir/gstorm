@@ -1,4 +1,6 @@
-package gstorm
+package gstorm.builders
+
+import gstorm.metadata.ClassMetaData
 
 class SelectQueryBuilderTest extends GroovyTestCase {
 

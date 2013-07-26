@@ -1,5 +1,6 @@
-package gstorm
+package gstorm.builders
 
+import gstorm.metadata.ClassMetaData
 
 class SelectQueryBuilder {
     private static final String SPACE = " "
@@ -8,11 +9,11 @@ class SelectQueryBuilder {
 
     SelectQueryBuilder(ClassMetaData classMetaData) {
         this.classMetaData = classMetaData
-        this.query = new StringBuilder("SELECT * from ${classMetaData.tableName}")
+        this.query = new StringBuilder("SELECT * FROM ${classMetaData.tableName}")
     }
 
     def where(String clause){
-        query.append(SPACE)append("where $clause")
+        query.append(SPACE)append("WHERE $clause")
         this
     }
 

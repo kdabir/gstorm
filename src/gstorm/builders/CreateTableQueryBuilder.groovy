@@ -1,5 +1,6 @@
-package gstorm
+package gstorm.builders
 
+import gstorm.metadata.ClassMetaData
 
 class CreateTableQueryBuilder {
     ClassMetaData classMetaData

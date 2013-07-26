@@ -1,4 +1,4 @@
-package gstorm
+package gstorm.metadata
 
 import java.lang.reflect.Field
 

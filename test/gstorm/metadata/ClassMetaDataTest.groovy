@@ -1,4 +1,4 @@
-package gstorm
+package gstorm.metadata
 
 class ClassMetaDataTest extends GroovyTestCase {
 

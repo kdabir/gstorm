@@ -1,4 +1,6 @@
-package gstorm
+package gstorm.metadata
+
+import gstorm.Table
 
 class ClassMetaDataAnnotationsTest extends GroovyTestCase {
 

@@ -1,4 +1,6 @@
-package gstorm
+package gstorm.metadata
+
+import gstorm.Table
 
 class ClassMetaData {
     final def modelClass, tableName

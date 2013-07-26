@@ -2,6 +2,10 @@ package gstorm
 
 import groovy.sql.Sql
 import groovy.util.logging.Log
+import gstorm.builders.CreateTableQueryBuilder
+import gstorm.builders.SelectQueryBuilder
+import gstorm.metadata.ClassMetaData
+
 import java.util.logging.Level
 
 @Log

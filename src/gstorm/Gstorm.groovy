@@ -36,7 +36,7 @@ class Gstorm {
         }
 
         modelMetaClass.static.get = { id ->
-            final result = sql.rows(new SelectQueryBuilder(metaData).where("ID = $id").build())
+            final result = sql.rows(new SelectQueryBuilder(metaData).where("ID = ?").build(), [id])
             (result) ? result.first() : null
         }
 

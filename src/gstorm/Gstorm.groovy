@@ -20,11 +20,8 @@ class Gstorm {
     }
 
     private def createTableFor(ClassMetaData metaData) {
-        def table_name = metaData.tableName
-        def column_defs = metaData.fields.collect {field -> "${field.name} ${field.columnType}" }.join(", ")
-        def id_column_def = "ID NUMERIC GENERATED ALWAYS AS IDENTITY PRIMARY KEY"
-
-        sql.execute("CREATE TABLE IF NOT EXISTS $table_name ($id_column_def, $column_defs)".toString())
+        String createSatement = new CreateTableQueryBuilder(metaData).build()
+        sql.execute(createSatement)
     }
 
     def addStaticDmlMethodsTo(ClassMetaData metaData) {

@@ -3,6 +3,7 @@ package gstorm
 import groovy.sql.Sql
 import groovy.util.logging.Log
 import gstorm.builders.CreateTableQueryBuilder
+import gstorm.builders.DeleteQueryBuilder
 import gstorm.builders.InsertQueryBuilder
 import gstorm.builders.SelectQueryBuilder
 import gstorm.builders.UpdateQueryBuilder
@@ -52,7 +53,6 @@ class Gstorm {
 
     def addInstanceDmlMethodsTo(ClassMetaData metaData) {
         final modelMetaClass = metaData.modelClass.metaClass
-        final table_name = metaData.tableName
         final fieldNames = metaData.fields*.name
 
         modelMetaClass.id = null // add id
@@ -70,7 +70,7 @@ class Gstorm {
         }
 
         modelMetaClass.delete = {
-            if (delegate.id != null) { sql.execute("DELETE FROM $table_name WHERE ID = ${delegate.id}".toString()) }
+            if (delegate.id != null) { sql.execute(new DeleteQueryBuilder(metaData).build(), [delegate.id]) }
             delegate
         }
     }

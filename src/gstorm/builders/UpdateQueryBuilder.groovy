@@ -6,12 +6,18 @@ class UpdateQueryBuilder extends QueryBuilderSupport{
 
     UpdateQueryBuilder(ClassMetaData classMetaData) {
         super(classMetaData)
-    }
-
-    String build() {
         final fieldNames = classMetaData.fields*.name
         final placeholders = fieldNames.collect { "${it} = ?" }.join(", ")
 
-        "UPDATE ${classMetaData.tableName} SET ${placeholders} WHERE ID = ?".toString() // TODO change id
+        this.query = new StringBuilder("UPDATE ${classMetaData.tableName} SET ${placeholders}")
+    }
+
+    def where(String clause) {
+        query.append(SPACE).append("WHERE ${clause}")
+        this
+    }
+
+    String build() {
+        query.toString()
     }
 }

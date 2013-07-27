@@ -56,8 +56,8 @@ class Gstorm {
         final modelMetaClass = metaData.modelClass.metaClass
         final fieldNames = metaData.fields*.name
         final insertQuery = new InsertQueryBuilder(metaData).build()
-        final updateQuery = new UpdateQueryBuilder(metaData).build()
-        final deleteQuery = new DeleteQueryBuilder(metaData).build()
+        final updateQuery = new UpdateQueryBuilder(metaData).where("id = ?").build()
+        final deleteQuery = new DeleteQueryBuilder(metaData).where("id = ?").build()
 
         modelMetaClass.id = null // add id
 

@@ -2,9 +2,7 @@ package gstorm.builders
 
 import gstorm.metadata.ClassMetaData
 
-class SelectQueryBuilder extends QueryBuilderSupport{
-    private static final String SPACE = " "
-    StringBuilder query
+class SelectQueryBuilder extends QueryBuilderSupport {
 
     SelectQueryBuilder(ClassMetaData classMetaData) {
         super(classMetaData)

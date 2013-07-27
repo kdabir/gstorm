@@ -21,8 +21,12 @@ class DeleteQueryBuilderTest extends GroovyTestCase {
         assertNotNull builder
     }
 
-    void "test the generated update query" () {
-        assert builder.build().toLowerCase() == "delete from person where id = ?"
+    void "test the generated delete query" () {
+        assert builder.build().toLowerCase() == "delete from person"
+    }
+
+    void "test the generated delete query with where clause" () {
+        assert builder.where("id = ?").build().toLowerCase() == "delete from person where id = ?"
     }
 
 }

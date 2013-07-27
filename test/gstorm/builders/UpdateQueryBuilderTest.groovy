@@ -22,7 +22,11 @@ class UpdateQueryBuilderTest extends GroovyTestCase {
     }
 
     void "test the generated update query" () {
-        assert builder.build().toLowerCase() == "update person set name = ?, age = ? where id = ?"
+        assert builder.build().toLowerCase() == "update person set name = ?, age = ?"
+    }
+
+    void "test the generated update query with where clause" () {
+        assert builder.where("id = ?").build().toLowerCase() == "update person set name = ?, age = ? where id = ?"
     }
 
 }

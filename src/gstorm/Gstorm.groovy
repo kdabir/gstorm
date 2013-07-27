@@ -5,6 +5,7 @@ import groovy.util.logging.Log
 import gstorm.builders.CreateTableQueryBuilder
 import gstorm.builders.InsertQueryBuilder
 import gstorm.builders.SelectQueryBuilder
+import gstorm.builders.UpdateQueryBuilder
 import gstorm.metadata.ClassMetaData
 
 import java.util.logging.Level
@@ -62,9 +63,8 @@ class Gstorm {
                 final generated_ids = sql.executeInsert(new InsertQueryBuilder(metaData).build(), values)
                 delegate.id = generated_ids[0][0]
             } else {
-                final placeholders = fieldNames.collect { "${it} = ?" }.join(", ")
-                final values = fieldNames.collect { delegate.getProperty(it)}
-                sql.executeUpdate("UPDATE $table_name SET $placeholders WHERE ID = ${delegate.id}".toString(), values)
+                final values = fieldNames.collect { delegate.getProperty(it)} << delegate.id
+                sql.executeUpdate(new UpdateQueryBuilder(metaData).build(), values)
             }
             delegate
         }

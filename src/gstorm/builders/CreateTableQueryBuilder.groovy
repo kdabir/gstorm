@@ -2,11 +2,10 @@ package gstorm.builders
 
 import gstorm.metadata.ClassMetaData
 
-class CreateTableQueryBuilder {
-    ClassMetaData classMetaData
+class CreateTableQueryBuilder extends QueryBuilderSupport{
 
     CreateTableQueryBuilder(ClassMetaData classMetaData) {
-        this.classMetaData = classMetaData
+        super(classMetaData)
     }
 
     String build() {

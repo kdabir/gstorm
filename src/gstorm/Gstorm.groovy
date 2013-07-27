@@ -3,6 +3,7 @@ package gstorm
 import groovy.sql.Sql
 import groovy.util.logging.Log
 import gstorm.builders.CreateTableQueryBuilder
+import gstorm.builders.InsertQueryBuilder
 import gstorm.builders.SelectQueryBuilder
 import gstorm.metadata.ClassMetaData
 
@@ -57,10 +58,8 @@ class Gstorm {
 
         modelMetaClass.save = {
             if (delegate.id == null) {
-                final columns = fieldNames.join ", "
-                final placeholders = fieldNames.collect { "?" }.join(", ")
                 final values = fieldNames.collect { delegate.getProperty(it)}
-                final generated_ids = sql.executeInsert("INSERT INTO $table_name ($columns) values (${placeholders})".toString(), values)
+                final generated_ids = sql.executeInsert(new InsertQueryBuilder(metaData).build(), values)
                 delegate.id = generated_ids[0][0]
             } else {
                 final placeholders = fieldNames.collect { "${it} = ?" }.join(", ")

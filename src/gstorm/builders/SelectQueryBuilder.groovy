@@ -2,13 +2,12 @@ package gstorm.builders
 
 import gstorm.metadata.ClassMetaData
 
-class SelectQueryBuilder {
+class SelectQueryBuilder extends QueryBuilderSupport{
     private static final String SPACE = " "
-    ClassMetaData classMetaData
     StringBuilder query
 
     SelectQueryBuilder(ClassMetaData classMetaData) {
-        this.classMetaData = classMetaData
+        super(classMetaData)
         this.query = new StringBuilder("SELECT * FROM ${classMetaData.tableName}")
     }
 

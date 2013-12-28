@@ -3,6 +3,7 @@
 .idea
 *.iml
 .gradle
+.gradletasknamecache
 build
 out
 /tmp

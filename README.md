@@ -67,7 +67,7 @@ Gstorm uses HSQLDB syntax internally.
 
 Grab GStorm using 
 ```groovy
-@GrabResolver(name='gstorm', root='http://kdabir.github.io/mavenrepo/') @Grab('gstorm:gstorm:0.3')
+@GrabResolver(name='gstorm', root='http://dl.bintray.com/kdabir/maven') @Grab('gstorm:gstorm:0.4')
 ```
 
 Include hsqldb

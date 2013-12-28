@@ -1,6 +1,16 @@
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+  }
+}
+apply plugin: 'bintray'
+
 group = 'gstorm'
 version = '0.4'
 
@@ -26,9 +36,17 @@ publishing {
             from components.java
         }
     }
-    repositories {
-        maven {
-            url "file://" + System.env["MAVEN_PUBLISH_HOME"] ?: "$buildDir/mavenrepo"
-        }
+}
+
+bintray {    
+    user = bintray_user
+    key = bintray_api_key
+    publications = ['gstormMaven'] 
+    pkg {
+        repo = 'maven'
+        name = 'gstorm'
+        desc = 'Groovy Single Table ORM'
+        licenses = ['Apache-2.0']
     }
+    dryRun = true // whether to run this as dry-run, without deploying
 }

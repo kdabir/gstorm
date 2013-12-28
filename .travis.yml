@@ -1,6 +1,10 @@
 language: groovy
 
-script: 'gradle -q check -Pbintray_user=ci_user -Pbintray_api_key=ci_key'
+install:
+  - TERM=dumb ./gradlew -q assemble -Pbintray_user=ci_user -Pbintray_api_key=ci_key
+
+script:
+  - TERM=dumb ./gradlew check -Pbintray_user=ci_user -Pbintray_api_key=ci_key'
 
 jdk:
   - oraclejdk7

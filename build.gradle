@@ -50,3 +50,7 @@ bintray {
     }
     dryRun = true // whether to run this as dry-run, without deploying
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.8'
+}

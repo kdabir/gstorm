@@ -1,10 +1,10 @@
 language: groovy
 
 install:
-  - TERM=dumb ./gradlew -q assemble -Pbintray_user=ci_user -Pbintray_api_key=ci_key
+  - TERM=dumb ./gradlew -q assemble
 
 script:
-  - TERM=dumb ./gradlew check -Pbintray_user=ci_user -Pbintray_api_key=ci_key
+  - TERM=dumb ./gradlew check
 
 jdk:
   - oraclejdk7

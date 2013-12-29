@@ -12,11 +12,10 @@ buildscript {
 apply plugin: 'bintray'
 
 group = 'gstorm'
-version = '0.4'
+version = '0.5-SNAPSHOT'
 
 repositories {
-    mavenLocal()
-    mavenCentral()
+    jcenter()
 }
 
 sourceSets {
@@ -25,7 +24,7 @@ sourceSets {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.1.3',
+    compile 'org.codehaus.groovy:groovy-all:2.2.1',
             'org.hsqldb:hsqldb:2.2.9'
     testCompile 'junit:junit:4.10'
 }
@@ -38,10 +37,11 @@ publishing {
     }
 }
 
-bintray {    
-    user = bintray_user
-    key = bintray_api_key
-    publications = ['gstormMaven'] 
+// set bintrayUser & bintrayKey in gradle.properties
+bintray {
+    user = getPropertyOrUseDefault("bintrayUser", "fake_user")
+    key = getPropertyOrUseDefault("bintrayKey", "fake_key")
+    publications = ['gstormMaven']
     pkg {
         repo = 'maven'
         name = 'gstorm'
@@ -52,5 +52,9 @@ bintray {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.8'
+    gradleVersion = '1.10'
+}
+
+String getPropertyOrUseDefault(String propertyName, String defaultValue) {
+    hasProperty(propertyName) ? getProperty(propertyName) : defaultValue
 }

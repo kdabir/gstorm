@@ -13,6 +13,7 @@ apply plugin: 'bintray'
 
 group = 'gstorm'
 version = '0.5-SNAPSHOT'
+description = "Groovy Single Table ORM"
 
 repositories {
     jcenter()
@@ -42,10 +43,14 @@ bintray {
     user = getPropertyOrUseDefault("bintrayUser", "fake_user")
     key = getPropertyOrUseDefault("bintrayKey", "fake_key")
     publications = ['gstormMaven']
+
+    def projectName = project.name
+    def projectDescription = project.description
+
     pkg {
         repo = 'maven'
-        name = 'gstorm'
-        desc = 'Groovy Single Table ORM'
+        name = projectName          // somehow project.* doesn't work in this closure
+        desc = projectDescription
         licenses = ['Apache-2.0']
     }
     dryRun = true // whether to run this as dry-run, without deploying

@@ -6,7 +6,7 @@ class UpdateQueryBuilder extends QueryBuilderSupport{
 
     UpdateQueryBuilder(ClassMetaData classMetaData) {
         super(classMetaData)
-        final fieldNames = classMetaData.fields*.name
+        final fieldNames = classMetaData.fieldNames
         final placeholders = fieldNames.collect { "${it} = ?" }.join(", ")
 
         this.query = new StringBuilder("UPDATE ${classMetaData.tableName} SET ${placeholders}")

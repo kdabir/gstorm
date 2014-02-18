@@ -45,7 +45,7 @@ class ModelClassEnhancer {
 
     private def addInstanceDmlMethods() {
         final modelMetaClass = metaData.modelClass.metaClass
-        final fieldNames = metaData.fields*.name
+        final fieldNames = metaData.fieldNames
         final insertQuery = new InsertQueryBuilder(metaData).build()
         final updateQuery = new UpdateQueryBuilder(metaData).where("id = ?").build()
         final deleteQuery = new DeleteQueryBuilder(metaData).where("id = ?").build()

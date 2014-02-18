@@ -9,7 +9,7 @@ class InsertQueryBuilder extends QueryBuilderSupport{
     }
 
     String build() {
-        final fieldNames = classMetaData.fields*.name
+        final fieldNames = classMetaData.fieldNames
         final columns = fieldNames.join ", "
         final placeholders = fieldNames.collect { "?" }.join(", ")
 

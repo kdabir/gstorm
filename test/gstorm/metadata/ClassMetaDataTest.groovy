@@ -22,8 +22,16 @@ class ClassMetaDataTest extends GroovyTestCase {
         assert metadata.tableName.equalsIgnoreCase("TestSubject")
     }
 
+    void "test field are unmodifiable externally"() {
+        shouldFail(UnsupportedOperationException) { metadata.fields << ["name"] }
+    }
+
     void "test persistent field names"() {
         assert metadata.fields*.name == ["name", "description", "addedOn"]
+    }
+
+    void "test persistent field names by accessor"() {
+        assert metadata.fieldNames == ["name", "description", "addedOn"]
     }
 
     void "test persistent field types"() {

@@ -2,7 +2,7 @@ package gstorm.builders
 
 import gstorm.metadata.ClassMetaData
 
-class UpdateQueryBuilder extends QueryBuilderSupport{
+class UpdateQueryBuilder extends AbstractWhereableQueryBuilder {
 
     UpdateQueryBuilder(ClassMetaData classMetaData) {
         super(classMetaData)
@@ -12,12 +12,4 @@ class UpdateQueryBuilder extends QueryBuilderSupport{
         this.query = new StringBuilder("UPDATE ${classMetaData.tableName} SET ${placeholders}")
     }
 
-    def where(String clause) {
-        query.append(SPACE).append("WHERE ${clause}")
-        this
-    }
-
-    String build() {
-        query.toString()
-    }
 }

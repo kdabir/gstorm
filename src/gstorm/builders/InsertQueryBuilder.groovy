@@ -2,7 +2,7 @@ package gstorm.builders
 
 import gstorm.metadata.ClassMetaData
 
-class InsertQueryBuilder extends QueryBuilderSupport{
+class InsertQueryBuilder extends AbstractQueryBuilder {
 
     InsertQueryBuilder(ClassMetaData classMetaData) {
         super(classMetaData)

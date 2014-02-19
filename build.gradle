@@ -1,7 +1,7 @@
 apply plugin: 'groovy'
 
 group = 'gstorm'
-version = '0.5-dev'
+version = '0.5'
 description = "Groovy Single Table ORM"
 
 sourceSets {

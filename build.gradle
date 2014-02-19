@@ -1,34 +1,38 @@
 apply plugin: 'groovy'
-apply plugin: 'maven-publish'
-
-buildscript {
-  repositories {
-    jcenter()
-  }
-  dependencies {
-    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
-  }
-}
-apply plugin: 'bintray'
 
 group = 'gstorm'
-version = '0.5-SNAPSHOT'
+version = '0.5-dev'
 description = "Groovy Single Table ORM"
-
-repositories {
-    jcenter()
-}
 
 sourceSets {
     main.groovy.srcDir 'src'
     test.groovy.srcDir 'test'
 }
 
-dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.2.1',
-            'org.hsqldb:hsqldb:2.2.9'
-    testCompile 'junit:junit:4.10'
+repositories {
+    jcenter()
 }
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.2.1'
+    testCompile 'junit:junit:4.10',
+                'org.hsqldb:hsqldb:2.2.9'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+    }
+}
+
+apply plugin: 'maven-publish'
 
 publishing {
     publications {
@@ -37,6 +41,8 @@ publishing {
         }
     }
 }
+
+apply plugin: 'bintray'
 
 // set bintrayUser & bintrayKey in gradle.properties
 bintray {
@@ -51,13 +57,9 @@ bintray {
         repo = 'maven'
         name = projectName          // somehow project.* doesn't work in this closure
         desc = projectDescription
-        licenses = ['Apache-2.0']
+        licenses = ['MIT']
     }
     dryRun = true // whether to run this as dry-run, without deploying
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.10'
 }
 
 String getPropertyOrUseDefault(String propertyName, String defaultValue) {

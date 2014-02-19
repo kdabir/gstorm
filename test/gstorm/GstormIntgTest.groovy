@@ -9,7 +9,6 @@ class GstormIntgTest extends GroovyTestCase {
     Gstorm gstorm
     Sql sql
 
-
     void setUp() {
         sql = Sql.newInstance("jdbc:hsqldb:mem:database", "sa", "", "org.hsqldb.jdbc.JDBCDriver")
         gstorm = new Gstorm(sql)
@@ -62,9 +61,10 @@ class GstormIntgTest extends GroovyTestCase {
 
         person.name = 'Batman'
         person.save()
+        def result = sql.rows("select *  from person")
 
-        println sql.rows("select *  from person")
-        sql.eachRow("select *  from person") { assert it.name == 'Batman' }
+        assert result.size() == 1
+        assert result.first().name == 'Batman'
     }
 
     // context : delete
@@ -111,6 +111,6 @@ class GstormIntgTest extends GroovyTestCase {
         def batman = new Person(name: 'Batman', age: 35).save()
         def spiderman = new Person(name: 'Spiderman', age: 30).save()
 
-        assert Person.get(123) == null // lets not complecate it by exceptions
+        assert Person.get(123) == null // lets not complicate it by exceptions
     }
 }

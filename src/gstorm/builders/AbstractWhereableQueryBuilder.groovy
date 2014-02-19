@@ -17,7 +17,8 @@ abstract class AbstractWhereableQueryBuilder extends AbstractQueryBuilder {
     }
 
     def byId() {
-        this.where(classMetaData.idFieldName ?: "id" + " = ?")
+        def id = classMetaData.idFieldName ?: "id"
+        this.where("${id} = ?")
     }
 
     @Override

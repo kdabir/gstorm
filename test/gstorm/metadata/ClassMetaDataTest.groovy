@@ -1,17 +1,13 @@
 package gstorm.metadata
 
+import models.Item
+
 class ClassMetaDataTest extends GroovyTestCase {
 
-    class TestSubject {
-        String name
-        def description
-        Date addedOn
-    }
-
-    def metadata
+    ClassMetaData metadata
 
     void setUp() {
-        metadata = new ClassMetaData(TestSubject)
+        metadata = new ClassMetaData(Item)
     }
 
     void "test should create MetaData for subject"() {
@@ -19,7 +15,7 @@ class ClassMetaDataTest extends GroovyTestCase {
     }
 
     void "test tableName"() {
-        assert metadata.tableName.equalsIgnoreCase("TestSubject")
+        assert metadata.tableName.equalsIgnoreCase("Item")
     }
 
     void "test field are unmodifiable externally"() {

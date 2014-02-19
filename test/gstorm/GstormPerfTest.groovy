@@ -1,16 +1,12 @@
 package gstorm
 
 import groovy.sql.Sql
+import models.Person
 
 class GstormPerfTest extends GroovyTestCase {
     Gstorm gstorm
     Sql sql
     def start, end
-
-    class Person {
-        def name
-        int age
-    }
 
     void setUp() {
         sql = Sql.newInstance("jdbc:hsqldb:mem:database", "sa", "", "org.hsqldb.jdbc.JDBCDriver")

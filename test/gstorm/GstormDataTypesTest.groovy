@@ -1,26 +1,15 @@
 package gstorm
 
 import groovy.sql.Sql
-
+import models.ClassWithDates
+import models.ClassWithNumbers
 import java.text.SimpleDateFormat
 import java.util.logging.Level
 
 class GstormDataTypesTest extends GroovyTestCase {
     Gstorm gstorm
     Sql sql
-    def df
-
-    class ClassWithDates {
-        String name
-        Date dateOfBirth
-    }
-
-    class ClassWithNumbers {
-        String name
-        int age
-        long points
-        float percentage
-    }
+    def dateFormat
 
     void setUp() {
         sql = Sql.newInstance("jdbc:hsqldb:mem:database", "sa", "", "org.hsqldb.jdbc.JDBCDriver")
@@ -28,7 +17,7 @@ class GstormDataTypesTest extends GroovyTestCase {
         gstorm.enableQueryLogging(Level.INFO)
         gstorm.stormify(ClassWithDates)
         gstorm.stormify(ClassWithNumbers)
-        df = new SimpleDateFormat("d/M/yyyy")
+        dateFormat = new SimpleDateFormat("d/M/yyyy")
     }
 
     void tearDown() {
@@ -43,11 +32,11 @@ class GstormDataTypesTest extends GroovyTestCase {
     }
 
     void "test if Date can be updated"() {
-        def cwd = new ClassWithDates(name: "nicedate", dateOfBirth: df.parse("20/10/2010")).save()
-        cwd.dateOfBirth = df.parse("20/11/2011")
+        def cwd = new ClassWithDates(name: "nicedate", dateOfBirth: dateFormat.parse("20/10/2010")).save()
+        cwd.dateOfBirth = dateFormat.parse("20/11/2011")
         cwd.save()
 
-        assert ClassWithDates.get(cwd.id).dateOfBirth == df.parse("20/11/2011")
+        assert ClassWithDates.get(cwd.id).dateOfBirth == dateFormat.parse("20/11/2011")
     }
 
     void "test if Numbers can be saved"() {

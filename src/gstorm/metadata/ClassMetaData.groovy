@@ -33,7 +33,7 @@ class ClassMetaData {
     }
 
     String getIdFieldName() {
-        idField.name
+        idField?.name
     }
 
     private String extractTableName(Class modelClass) {

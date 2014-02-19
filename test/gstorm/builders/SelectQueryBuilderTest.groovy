@@ -5,12 +5,13 @@ import gstorm.metadata.ClassMetaData
 class SelectQueryBuilderTest extends GroovyTestCase {
 
     class Person {
+        Integer id
         def name
         int age
     }
 
-    def builder
-    def classMetaData
+    SelectQueryBuilder builder
+    ClassMetaData classMetaData
 
     void setUp() {
         classMetaData = new ClassMetaData(Person.class)
@@ -27,6 +28,10 @@ class SelectQueryBuilderTest extends GroovyTestCase {
 
     void "test builds query with given where clause"() {
         assert builder.where("name = 'test'").build().toLowerCase() == "select * from person where name = 'test'"
+    }
+
+    void "test builds query by id"() {
+        assert builder.byId().build().toLowerCase() == "select * from person where id = ?"
     }
 
 }

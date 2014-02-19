@@ -9,10 +9,10 @@ class CreateTableQueryBuilder extends QueryBuilderSupport{
     }
 
     String build() {
-        def table_name = classMetaData.tableName
-        def column_defs = classMetaData.fields.collect { field -> "${field.name} ${field.columnType}" }.join(", ")
-        def id_column_def = "ID NUMERIC GENERATED ALWAYS AS IDENTITY PRIMARY KEY"
+        def tableName = classMetaData.tableName
+        def columnDefs = classMetaData.fields.collect { field -> "${field.name} ${field.columnType}" }.join(", ")
+        def idColumnDef = "${classMetaData.idFieldName ?:'ID'} NUMERIC GENERATED ALWAYS AS IDENTITY PRIMARY KEY"
 
-        "CREATE TABLE IF NOT EXISTS $table_name ($id_column_def, $column_defs)".toString()
+        "CREATE TABLE IF NOT EXISTS $tableName ($idColumnDef, $columnDefs)".toString()
     }
 }

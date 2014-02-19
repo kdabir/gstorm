@@ -9,8 +9,13 @@ class SelectQueryBuilder extends QueryBuilderSupport {
         this.query = new StringBuilder("SELECT * FROM ${classMetaData.tableName}")
     }
 
-    def where(String clause){
-        query.append(SPACE)append("WHERE $clause")
+    def where(String clause) {
+        query.append(SPACE).append("WHERE $clause")
+        this
+    }
+
+    def byId() {
+        this.where(classMetaData.idFieldName ?: "id" + " = ?")
         this
     }
 

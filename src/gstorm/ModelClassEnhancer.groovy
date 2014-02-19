@@ -56,7 +56,7 @@ class ModelClassEnhancer {
             if (delegate.id == null) {
                 final values = fieldNames.collect { delegate.getProperty(it) }
                 final generated_ids = sql.executeInsert(insertQuery, values)
-                delegate.id = generated_ids[0][0]
+                delegate.id = generated_ids[0][0] // pretty stupid way to extract it
             } else {
                 final values = fieldNames.collect { delegate.getProperty(it) } << delegate.id
                 sql.executeUpdate(updateQuery, values)

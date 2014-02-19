@@ -1,22 +1,37 @@
 package gstorm.metadata
 
+import gstorm.Id
 import gstorm.Table
 
 class ClassMetaDataAnnotationsTest extends GroovyTestCase {
 
     @Table("TestTable")
-    class TestSubject {
+    class ClassWithTable {
         String name
     }
 
-    def metadata
-
-    void setUp() {
-        metadata = new ClassMetaData(TestSubject)
+    class ClassWithIdAnnotation {
+        @Id Integer uid
+        String name
     }
 
     void "test tableName"() {
-        assert metadata.tableName.equalsIgnoreCase("TestTable")
+        ClassMetaData metadataWithTable = new ClassMetaData(ClassWithTable)
+
+        assert metadataWithTable.tableName.equalsIgnoreCase("TestTable")
+    }
+
+    void "test Id"() {
+        ClassMetaData  metadataWithId = new ClassMetaData(ClassWithIdAnnotation)
+
+        assert metadataWithId.idFieldName.equals("uid")
+        assert metadataWithId.idField.name.equals("uid")
+    }
+
+    void "test Id should not be included in fields"() {
+        ClassMetaData  metadataWithId = new ClassMetaData(ClassWithIdAnnotation)
+
+        assert !metadataWithId.fieldNames.contains("uid")
     }
 
 }

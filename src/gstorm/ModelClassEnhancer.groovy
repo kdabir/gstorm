@@ -1,6 +1,7 @@
 package gstorm
 
 import groovy.sql.Sql
+import gstorm.builders.CountQueryBuilder
 import gstorm.builders.DeleteQueryBuilder
 import gstorm.builders.InsertQueryBuilder
 import gstorm.builders.SelectQueryBuilder
@@ -41,6 +42,15 @@ class ModelClassEnhancer {
         // alias
         modelMetaClass.static.getAll = getAll
         modelMetaClass.static.all = getAll
+
+        def getCount = { String optional_clause = null ->
+            def query = new CountQueryBuilder(metaData)
+            if (optional_clause) query.where(optional_clause)
+            sql.firstRow(query.build()).count
+        }
+        modelMetaClass.static.count = getCount
+        modelMetaClass.static.getCount = getCount
+
     }
 
     private def addInstanceDmlMethods() {

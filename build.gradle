@@ -1,7 +1,7 @@
 apply plugin: 'groovy'
 
 group = 'gstorm'
-version = '0.5'
+version = '0.6-dev'
 description = "Groovy Single Table ORM"
 
 sourceSets {
@@ -59,7 +59,7 @@ bintray {
         desc = projectDescription
         licenses = ['MIT']
     }
-    dryRun = true // whether to run this as dry-run, without deploying
+//    dryRun = true // whether to run this as dry-run, without deploying
 }
 
 String getPropertyOrUseDefault(String propertyName, String defaultValue) {

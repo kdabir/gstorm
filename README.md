@@ -99,6 +99,9 @@ feature complete. The project is under active development and is not yet suitabl
 
 ## Changelog :
 
+### v0.6
+ - support `count()` method and `count` property on Model class. `count(clause)` can take a where like condition
+
 ### v0.5
  - support `@Id` annotation. limitation: The id has to be a numeric (Integer) field in class
  - heavy refactoring internally, keeping the api intact

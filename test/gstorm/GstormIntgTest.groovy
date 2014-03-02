@@ -113,4 +113,23 @@ class GstormIntgTest extends GroovyTestCase {
 
         assert Person.get(123) == null // lets not complicate it by exceptions
     }
+
+    //context : count
+    void "test count"() {
+        assert Person.count() == 0  // works as method
+
+        def batman = new Person(name: 'Batman', age: 35).save()
+        def spiderman = new Person(name: 'Spiderman', age: 30).save()
+
+        assert Person.count == 2    // as well as property
+    }
+
+    void "test count with where"() {
+        assert Person.count() == 0  // works as method
+
+        def batman = new Person(name: 'Batman', age: 35).save()
+        def spiderman = new Person(name: 'Spiderman', age: 30).save()
+
+        assert Person.count("age > 30") == 1    // as well as property
+    }
 }

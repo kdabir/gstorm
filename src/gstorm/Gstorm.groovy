@@ -5,11 +5,16 @@ import groovy.util.logging.Log
 import gstorm.builders.CreateTableQueryBuilder
 import gstorm.metadata.ClassMetaData
 
+import java.sql.Connection
 import java.util.logging.Level
 
 @Log
 class Gstorm {
     Sql sql
+
+    Gstorm(Connection connection){
+        this.sql = new Sql(connection)
+    }
 
     Gstorm(Sql sql) {
         this.sql = sql

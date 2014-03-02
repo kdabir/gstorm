@@ -3,6 +3,9 @@ package gstorm
 import groovy.sql.Sql
 import models.Person
 
+import java.sql.Connection
+import java.sql.DriverManager
+
 
 class GstormIntgTest extends GroovyTestCase {
 
@@ -20,20 +23,33 @@ class GstormIntgTest extends GroovyTestCase {
         sql.close()
     }
 
+    //context : creation
+    void "test should create gstorm with connection object"() {
+        Class.forName("org.hsqldb.jdbcDriver");
+        Connection c = DriverManager.getConnection("jdbc:hsqldb:mem:database", "sa", "");
+        gstorm = new Gstorm(c)
+        gstorm.stormify(Person) // should create table
+        assert Person.count == 0 // gstorm should work
+    }
+
     // context : create table
     void "test that a table is created for stormified class"() {
         assert sql.rows("select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'PERSON'").size() == 1
     }
 
     void "test table has columns defined in the class "() {
-        def columns_names = sql.rows("select COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'PERSON'").collect {it.column_name}
+        def columns_names = sql.rows("select COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'PERSON'").collect {
+            it.column_name
+        }
 
-        ["NAME", "AGE"].each { assert columns_names.contains(it)}
+        ["NAME", "AGE"].each { assert columns_names.contains(it) }
     }
 
     // context : id, create table
     void "test that created table has id column"() {
-        assert sql.rows("select COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'PERSON'").collect {it.column_name}.contains("ID")
+        assert sql.rows("select COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'PERSON'").collect {
+            it.column_name
+        }.contains("ID")
     }
 
     void "test id property is created on model object and is set to null"() {
@@ -88,7 +104,7 @@ class GstormIntgTest extends GroovyTestCase {
         new Person(name: 'Batman', age: 35).save()
         new Person(name: 'Spiderman', age: 30).save()
 
-        assert Person.where("age > 30").collect {it.name} == ["Batman"]
+        assert Person.where("age > 30").collect { it.name } == ["Batman"]
     }
 
     // context : get all
@@ -96,7 +112,7 @@ class GstormIntgTest extends GroovyTestCase {
         new Person(name: 'Batman', age: 35).save()
         new Person(name: 'Spiderman', age: 30).save()
 
-        assert Person.all.collect {it.name} == sql.rows("select * from person").collect {it.name}
+        assert Person.all.collect { it.name } == sql.rows("select * from person").collect { it.name }
     }
 
     // context : find

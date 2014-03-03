@@ -2,11 +2,14 @@
  * Using Annotations
  */
 
-@GrabResolver(name='gstorm', root='http://dl.bintray.com/kdabir/maven') @Grab('gstorm:gstorm:0.5')
-@GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.2.9')
+@GrabResolver(name='gstorm', root='http://dl.bintray.com/kdabir/maven')
+@GrabConfig(systemClassLoader = true)
+@Grab('gstorm:gstorm:0.6')
+@Grab('org.hsqldb:hsqldb:2.3.2')
 import groovy.sql.*
 import gstorm.*
 
+// using sql object explicitly to create Gstorm instance, this can be any other jdbc driver
 def sql = Sql.newInstance("jdbc:hsqldb:mem:database", "sa", "", "org.hsqldb.jdbcDriver")
 
 @Table("Employees") // if have a different table name

@@ -3,6 +3,7 @@ package gstorm
 import groovy.sql.Sql
 import groovy.util.logging.Log
 import gstorm.builders.CreateTableQueryBuilder
+import gstorm.helpers.SqlObjectFactory
 import gstorm.metadata.ClassMetaData
 
 import java.sql.Connection
@@ -12,14 +13,45 @@ import java.util.logging.Level
 class Gstorm {
     Sql sql
 
-    Gstorm(Connection connection){
-        this.sql = new Sql(connection)
+    /**
+     * Constructs Gstorm using in-memory hsqldb database
+     */
+    Gstorm(){
+        this(SqlObjectFactory.memoryDB())
     }
 
+    /**
+     * Constructs Gstorm using disk based (persistent) hsqldb database
+     *
+     * @param dbPath the path of the database
+     */
+    Gstorm(String dbPath){
+        this(SqlObjectFactory.fileDB(dbPath))
+    }
+
+    /**
+     * Constructs Gstorm using provided Connection
+     *
+     * @param connection instance of java.sql.Connection
+     */
+    Gstorm(Connection connection){
+        this(new Sql(connection))
+    }
+
+    /**
+     * Constructs Gstorm using provided Sql instance
+     *
+     * @param connection instance of groovy.sql.Sql
+     */
     Gstorm(Sql sql) {
         this.sql = sql
     }
 
+    /**
+     * Adds CRUD methods to the modelClass. Also creates table for class if does not exist already.
+     *
+     * @param modelClass
+     */
     def stormify(Class modelClass) {
         ClassMetaData classMetaData = new ClassMetaData(modelClass)
         createTableFor(classMetaData)

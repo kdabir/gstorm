@@ -1,7 +1,7 @@
 apply plugin: 'groovy'
 
 group = 'gstorm'
-version = '0.6-dev'
+version = '0.6'
 description = "Groovy Single Table ORM"
 
 sourceSets {
@@ -14,9 +14,9 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.2.1'
-    testCompile 'junit:junit:4.10',
-                'org.hsqldb:hsqldb:2.2.9'
+    compile 'org.codehaus.groovy:groovy-all:2.2.1',
+            'org.hsqldb:hsqldb:2.3.2'
+    testCompile 'junit:junit:4.10'
 }
 
 task wrapper(type: Wrapper) {
@@ -59,7 +59,7 @@ bintray {
         desc = projectDescription
         licenses = ['MIT']
     }
-//    dryRun = true // whether to run this as dry-run, without deploying
+    dryRun = true // whether to run this as dry-run, without deploying
 }
 
 String getPropertyOrUseDefault(String propertyName, String defaultValue) {

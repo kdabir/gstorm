@@ -1,20 +1,13 @@
 /**
  * This script demonstrates the usage of class level methods
  */
-@GrabResolver(name='gstorm', root='http://dl.bintray.com/kdabir/maven') @Grab('gstorm:gstorm:0.6-dev')
-@GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.2.9')
-import groovy.sql.*
+@GrabResolver(name='gstorm', root='http://dl.bintray.com/kdabir/maven')
+@GrabConfig(systemClassLoader = true) @Grab('gstorm:gstorm:0.6')
 import gstorm.*
-import java.util.logging.Level
-
-def sql = Sql.newInstance("jdbc:hsqldb:mem:database", "sa", "", "org.hsqldb.jdbcDriver")
-def g = new Gstorm(sql)
-g.enableQueryLogging(Level.INFO)
-
-
 
 class Person { String name; int age } // model class
 
+def g = new Gstorm()
 g.stormify(Person)
 
 // create some data
@@ -25,7 +18,7 @@ def spiderman = new Person(name: 'Spiderman', age: 30).save()
 assert Person.where("age > 30").collect {it.name} == ["Batman"]
 
 // get all
-assert Person.all.collect {it.name} == sql.rows("select * from person").collect {it.name}
+assert Person.all.collect {it.name} == g.sql.rows("select * from person").collect {it.name}
 
 // get by id
 assert Person.get(batman.id).name == "Batman"

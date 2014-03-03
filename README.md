@@ -6,7 +6,7 @@ Gstorm is very light persistence helper for simple scenarios such as groovy scri
 ```groovy
 class Person { String name, project }       // this is your model class
 
-def g = new Gstorm(sql)
+def g = new Gstorm()
 g.stormify(Person)                          // table automatically gets created for this class
 
 def person = new Person(name: "kunal", project: "gstorm")
@@ -69,21 +69,30 @@ Gstorm uses HSQLDB syntax internally.
 
 Grab GStorm using 
 ```groovy
-@GrabResolver(name='gstorm', root='http://dl.bintray.com/kdabir/maven') @Grab('gstorm:gstorm:0.5')
+@GrabResolver(name='gstorm', root='http://dl.bintray.com/kdabir/maven')
+@GrabConfig(systemClassLoader = true) @Grab('gstorm:gstorm:0.6')
 ```
 
-Include hsqldb
+Create instance of `Gstorm`
+
 ```groovy
-@GrabConfig(systemClassLoader = true) @Grab('org.hsqldb:hsqldb:2.2.9')
+def g = new Gstorm()
 ```
 
-and gstormify your model
+You may pass optionally pass object of `java.sql.Connection` or `groovy.sql.Sql`
 
 ```groovy
-new Gstorm(sql).stormify(Person) 
+def g = new Gstorm(sql)
 ```
 
 where `sql` is an instance of `groovy.sql.Sql`
+
+And gstormify your model
+
+```groovy
+g.stormify(Person)
+```
+
 
 Just go through the [example's source ](examples) and [test](test/gstorm) and have fun.
 
@@ -101,6 +110,10 @@ feature complete. The project is under active development and is not yet suitabl
 
 ### v0.6
  - support `count()` method and `count` property on Model class. `count(clause)` can take a where like condition
+ - support `Gstorm(Connection)` which can take `java.sql.Connection` object
+ - support `Gstorm()` constructor which create in memory db (HSQLDB) automatically
+ - support `Gstorm(dbpath)` constructor which creates HSQLDB with the specified file path
+ - add `hsqldb` as compile/runtime dependency to project, so it will be used by default. User can always exclude it if it's not required.
 
 ### v0.5
  - support `@Id` annotation. limitation: The id has to be a numeric (Integer) field in class

@@ -23,15 +23,6 @@ class GstormIntgTest extends GroovyTestCase {
         sql.close()
     }
 
-    //context : creation
-    void "test should create gstorm with connection object"() {
-        Class.forName("org.hsqldb.jdbcDriver");
-        Connection c = DriverManager.getConnection("jdbc:hsqldb:mem:database", "sa", "");
-        gstorm = new Gstorm(c)
-        gstorm.stormify(Person) // should create table
-        assert Person.count == 0 // gstorm should work
-    }
-
     // context : create table
     void "test that a table is created for stormified class"() {
         assert sql.rows("select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'PERSON'").size() == 1

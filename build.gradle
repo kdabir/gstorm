@@ -1,7 +1,7 @@
 apply plugin: 'groovy'
 
 group = 'gstorm'
-version = '0.6'
+version = '0.7-SNAPSHOT'
 description = "Groovy Single Table ORM"
 
 sourceSets {
@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.2.1',
+    compile 'org.codehaus.groovy:groovy-all:2.3.1',
             'org.hsqldb:hsqldb:2.3.2'
     testCompile 'junit:junit:4.10'
 }

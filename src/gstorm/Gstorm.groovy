@@ -56,6 +56,7 @@ class Gstorm {
         ClassMetaData classMetaData = new ClassMetaData(modelClass)
         createTableFor(classMetaData)
         new ModelClassEnhancer(classMetaData, sql).enhance()
+        return this
     }
 
     private def createTableFor(ClassMetaData metaData) {

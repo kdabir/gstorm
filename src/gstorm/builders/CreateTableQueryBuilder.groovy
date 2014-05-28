@@ -10,9 +10,11 @@ class CreateTableQueryBuilder extends AbstractQueryBuilder {
 
     String build() {
         def tableName = classMetaData.tableName
-        def columnDefs = classMetaData.fields.collect { field -> "${field.name} ${field.columnType}" }.join(", ")
-        def idColumnDef = "${classMetaData.idFieldName ?: 'ID'} NUMERIC GENERATED ALWAYS AS IDENTITY PRIMARY KEY"
+        def columnDefs = classMetaData.fields.collect { field -> "${field.name} ${field.columnType}" }
 
-        "CREATE TABLE IF NOT EXISTS $tableName ($idColumnDef, $columnDefs)".toString()
+        if (!classMetaData.withoutId()) {
+            columnDefs.add(0,"${classMetaData.idFieldName ?: 'ID'} NUMERIC GENERATED ALWAYS AS IDENTITY PRIMARY KEY")
+        }
+        "CREATE TABLE IF NOT EXISTS $tableName (${columnDefs.join(', ')})".toString()
     }
 }

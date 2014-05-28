@@ -9,12 +9,14 @@ import gstorm.builders.UpdateQueryBuilder
 import gstorm.metadata.ClassMetaData
 
 class ModelClassEnhancer {
-    ClassMetaData metaData
-    Sql sql
+    final ClassMetaData metaData
+    final Sql sql
+    final boolean canAddIdBasedMethods
 
     ModelClassEnhancer(ClassMetaData classMetaData, Sql sql) {
         this.metaData = classMetaData
         this.sql = sql
+        this.canAddIdBasedMethods = !metaData.withoutId()
     }
 
     public void enhance() {
@@ -24,22 +26,15 @@ class ModelClassEnhancer {
 
     private def addStaticDmlMethods() {
         final modelMetaClass = metaData.modelClass.metaClass
-        def selectAllQuery = new SelectQueryBuilder(metaData).build()
-        def selectByIdQuery = new SelectQueryBuilder(metaData).byId().build()
 
         modelMetaClass.static.where = { String clause ->
             sql.rows(new SelectQueryBuilder(metaData).where(clause).build())
         }
 
-        modelMetaClass.static.get = { id ->
-            final result = sql.rows(selectByIdQuery, [id])
-            (result) ? result.first() : null
-        }
-
+        def selectAllQuery = new SelectQueryBuilder(metaData).build()
         def getAll = {
             sql.rows(selectAllQuery)
         }
-        // alias
         modelMetaClass.static.getAll = getAll
         modelMetaClass.static.all = getAll
 
@@ -51,39 +46,60 @@ class ModelClassEnhancer {
         modelMetaClass.static.count = getCount
         modelMetaClass.static.getCount = getCount
 
+        if (this.canAddIdBasedMethods){
+            def selectByIdQuery = new SelectQueryBuilder(metaData).byId().build()
+            modelMetaClass.static.get = { id ->
+                final result = sql.rows(selectByIdQuery, [id])
+                (result) ? result.first() : null
+            }
+        }
     }
 
     private def addInstanceDmlMethods() {
         final modelMetaClass = metaData.modelClass.metaClass
         final fieldNames = metaData.fieldNames
+
         final insertQuery = new InsertQueryBuilder(metaData).build()
-        final updateQuery = new UpdateQueryBuilder(metaData).byId().build()
-        final deleteQuery = new DeleteQueryBuilder(metaData).byId().build()
 
-        if (!metaData.idField) { // add id if not already defined
-            modelMetaClass.id = null
-        }
+        if (canAddIdBasedMethods) {
 
-        modelMetaClass.getId$ = { -> delegate.getProperty(metaData.idFieldName ?: 'id') }
-        modelMetaClass.setId$ = { value -> delegate.setProperty(metaData.idFieldName ?: 'id', value) }
+            final updateQuery = new UpdateQueryBuilder(metaData).byId().build()
+            final deleteQuery = new DeleteQueryBuilder(metaData).byId().build()
 
-        modelMetaClass.save = {
-            if (delegate.id$ == null) {
+            if (!metaData.idField) { // add id if not already defined
+                modelMetaClass.id = null
+            }
+
+            modelMetaClass.getId$ = { -> delegate.getProperty(metaData.idFieldName ?: 'id') }
+            modelMetaClass.setId$ = { value -> delegate.setProperty(metaData.idFieldName ?: 'id', value) }
+
+            modelMetaClass.save = {
+                if (delegate.id$ == null) {
+                    final values = fieldNames.collect { delegate.getProperty(it) }
+                    final generatedIds = sql.executeInsert(insertQuery, values)
+                    delegate.id$ = generatedIds[0][0] // pretty stupid way to extract it
+                } else {
+                    final values = fieldNames.collect { delegate.getProperty(it) } << delegate.id$
+                    sql.executeUpdate(updateQuery, values)
+                }
+                delegate
+            }
+
+            modelMetaClass.delete = {
+                if (delegate.id$ != null) {
+                    sql.execute(deleteQuery, [delegate.id$])
+                }
+                delegate
+            }
+
+        } else {
+            // as we don't have id, there is no proper way we can update existing record,
+            // hence every call to save will always insert a record in db
+            modelMetaClass.save = {
                 final values = fieldNames.collect { delegate.getProperty(it) }
-                final generatedIds = sql.executeInsert(insertQuery, values)
-                delegate.id$ = generatedIds[0][0] // pretty stupid way to extract it
-            } else {
-                final values = fieldNames.collect { delegate.getProperty(it) } << delegate.id$
-                sql.executeUpdate(updateQuery, values)
+                sql.executeInsert(insertQuery, values)
+                delegate
             }
-            delegate
-        }
-
-        modelMetaClass.delete = {
-            if (delegate.id$ != null) {
-                sql.execute(deleteQuery, [delegate.id$])
-            }
-            delegate
         }
     }
 

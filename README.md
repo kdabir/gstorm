@@ -108,6 +108,11 @@ feature complete. The project is under active development and is not yet suitabl
 
 ## Changelog :
 
+### v0.7
+- support `@WithoutId` annotation to map to tables that do not have any id field and hence classes will not have id specific methods
+- capability to provide custom type mappings as well changing the default type mapping if no type mapping is found
+- ability to chain `stormify` and return the `Gstorm` instance
+
 ### v0.6
  - support `count()` method and `count` property on Model class. `count(clause)` can take a where like condition
  - support `Gstorm(Connection)` which can take `java.sql.Connection` object

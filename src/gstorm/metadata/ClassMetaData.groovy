@@ -2,6 +2,7 @@ package gstorm.metadata
 
 import gstorm.Id
 import gstorm.Table
+import gstorm.WithoutId
 
 import java.lang.reflect.Field
 
@@ -38,6 +39,10 @@ class ClassMetaData {
 
     private String extractTableName(Class modelClass) {
         modelClass.getAnnotation(Table)?.value()?.trim() ?: modelClass.simpleName
+    }
+
+    boolean withoutId() {
+        modelClass.isAnnotationPresent(WithoutId)
     }
 
     private List<FieldMetaData> getOtherFieldsOfClass(Class modelClass) {

@@ -1,5 +1,6 @@
 package gstorm.metadata
 
+import gstorm.Csv
 import gstorm.Id
 import gstorm.Table
 import gstorm.WithoutId
@@ -41,8 +42,12 @@ class ClassMetaData {
         modelClass.getAnnotation(Table)?.value()?.trim() ?: modelClass.simpleName
     }
 
-    boolean withoutId() {
+    boolean isWithoutId() {
         modelClass.isAnnotationPresent(WithoutId)
+    }
+
+    boolean isCsv(){
+        modelClass.isAnnotationPresent(Csv)
     }
 
     private List<FieldMetaData> getOtherFieldsOfClass(Class modelClass) {

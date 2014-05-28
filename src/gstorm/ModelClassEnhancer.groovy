@@ -16,7 +16,7 @@ class ModelClassEnhancer {
     ModelClassEnhancer(ClassMetaData classMetaData, Sql sql) {
         this.metaData = classMetaData
         this.sql = sql
-        this.canAddIdBasedMethods = !metaData.withoutId()
+        this.canAddIdBasedMethods = !metaData.isWithoutId()
     }
 
     public void enhance() {

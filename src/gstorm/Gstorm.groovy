@@ -63,6 +63,10 @@ class Gstorm {
         sql.execute(new CreateTableQueryBuilder(metaData).build())
     }
 
+    def setCsvFile(Class modelClass, String filePath, boolean readOnly=false) {
+        def tableName = new ClassMetaData(modelClass).tableName
+        sql.execute(""" SET TABLE $tableName SOURCE "$filePath" ${(readOnly)?"DESC":""}""".toString())
+    }
 
     def enableQueryLogging(level = Level.FINE) {
         def sqlMetaClass = Sql.class.metaClass

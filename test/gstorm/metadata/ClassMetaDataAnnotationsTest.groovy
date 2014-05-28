@@ -23,7 +23,7 @@ class ClassMetaDataAnnotationsTest extends GroovyTestCase {
     void "test WithoutId"() {
         ClassMetaData metadataWithId = new ClassMetaData(ClassWithoutId)
 
-        assert metadataWithId.withoutId() == true
+        assert metadataWithId.isWithoutId() == true
     }
 
     void "test Id should not be included in fields"() {

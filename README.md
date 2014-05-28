@@ -110,6 +110,7 @@ feature complete. The project is under active development and is not yet suitabl
 
 ### v0.7
 - support `@WithoutId` annotation to map to tables that do not have any id field and hence classes will not have id specific methods
+- first cut of support for `@Csv` annotation to open CSV files as table. File can be set using `setCsvFile()` method of Gstorm.
 - capability to provide custom type mappings as well changing the default type mapping if no type mapping is found
 - ability to chain `stormify` and return the `Gstorm` instance
 

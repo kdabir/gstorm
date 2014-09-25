@@ -1,7 +1,7 @@
 apply plugin: 'groovy'
 
 group = 'io.github.kdabir.gstorm'
-version = '0.7'
+version = '0.7.1-SNAPSHOT'
 description = "Groovy Single Table ORM"
 
 sourceSets {
@@ -21,7 +21,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.11'
+    gradleVersion = '2.1'
 }
 
 buildscript {
@@ -33,12 +33,88 @@ buildscript {
     }
 }
 
+apply plugin: 'idea'
+
+idea {
+    project {
+        ipr.withXml { provider ->
+            def node = provider.asNode()
+
+            // Setting git with idea
+            def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
+            vcsConfig.mapping[0].'@vcs' = 'Git'
+        }
+    }
+    module {
+        excludeDirs += [file(".gradle"), file('gradle')]
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gstorm',
+                'Implementation-Version': version,
+                'Built-By': System.getProperty("user.name"),
+                'Built-Date': new Date(),
+                'Built-JDK': System.getProperty("java.version"),
+                'Built-Gradle': gradle.gradleVersion
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    classifier 'groovydoc'
+    from groovydoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives groovydocJar
+}
+
 apply plugin: 'maven-publish'
 
 publishing {
     publications {
         gstormMaven(MavenPublication) {
             from components.java
+
+            artifact sourcesJar
+            artifact groovydocJar
+
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+
+                    description project.description
+                    url "https://github.com/kdabir/gstorm"
+
+                    developers {
+                        developer {
+                            id 'kdabir'
+                            name 'Kunal Dabir'
+                        }
+                    }
+
+                    scm {
+                        url 'https://github.com/kdabir/gstorm'
+                        connection 'scm:git://github.com/kdabir/gstorm.git'
+                        developerConnection 'scm:git://github.com/kdabir/gstorm.git'
+                    }
+
+                    licenses {
+                        license {
+                            name 'MIT License'
+                            url 'http://opensource.org/licenses/MIT'
+                            distribution 'repo'
+                        }
+                    }
+                }
+            } // withXml
         }
     }
 }
@@ -60,7 +136,7 @@ bintray {
         desc = projectDescription
         licenses = ['MIT']
     }
-//    dryRun = true // whether to run this as dry-run, without deploying
+    dryRun = true // whether to run this as dry-run, without deploying
 }
 
 String getPropertyOrUseDefault(String propertyName, String defaultValue) {

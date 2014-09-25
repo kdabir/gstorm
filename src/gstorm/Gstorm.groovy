@@ -52,7 +52,7 @@ class Gstorm {
      *
      * @param modelClass
      */
-    def stormify(Class modelClass) {
+    Gstorm stormify(Class modelClass) {
         ClassMetaData classMetaData = new ClassMetaData(modelClass)
         createTableFor(classMetaData)
         new ModelClassEnhancer(classMetaData, sql).enhance()
@@ -65,7 +65,7 @@ class Gstorm {
 
     def setCsvFile(Class modelClass, String filePath, boolean readOnly=false) {
         def tableName = new ClassMetaData(modelClass).tableName
-        sql.execute(""" SET TABLE $tableName SOURCE "$filePath" ${(readOnly)?"DESC":""}""".toString())
+        sql.execute("""SET TABLE $tableName SOURCE "$filePath" ${(readOnly)?"DESC":""}""".trim().toString())
         return this
     }
 

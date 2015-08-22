@@ -145,5 +145,3 @@ feature complete. The project is under active development and is not yet suitabl
 ### v0.1
  - initial prototype
  - `save()` and `where()` methods added
-
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/906d476f720f7827898ee9e86c868605 "githalytics.com")](http://githalytics.com/kdabir/gstorm)

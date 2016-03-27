@@ -1,12 +1,16 @@
-apply plugin: 'groovy'
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+    id "com.jfrog.bintray" version '1.6'
+    id 'net.researchgate.release' version '2.3.5'
+}
 
 group = 'io.github.kdabir.gstorm'
-version = '0.7.1-SNAPSHOT'
 description = "Groovy Single Table ORM"
 
 sourceSets {
-    main.groovy.srcDir 'src'
-    test.groovy.srcDir 'test'
+    main.groovy.srcDirs = ['src']
+    test.groovy.srcDirs = ['test']
 }
 
 repositories {
@@ -14,40 +18,10 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.2',
-            'org.hsqldb:hsqldb:2.3.2'
-    testCompile 'junit:junit:4.10',
-            'io.github.kdabir.directree:directree:0.2'
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
-}
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
-    }
-}
-
-apply plugin: 'idea'
-
-idea {
-    project {
-        ipr.withXml { provider ->
-            def node = provider.asNode()
-
-            // Setting git with idea
-            def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
-            vcsConfig.mapping[0].'@vcs' = 'Git'
-        }
-    }
-    module {
-        excludeDirs += [file(".gradle"), file('gradle')]
-    }
+    compile 'org.codehaus.groovy:groovy-all:2.4.6'
+    compile 'org.hsqldb:hsqldb:2.3.3'
+    testCompile 'junit:junit:4.10'
+    testCompile 'io.github.kdabir.directree:directree:0.3.0'
 }
 
 jar {
@@ -75,8 +49,6 @@ artifacts {
     archives sourcesJar
     archives groovydocJar
 }
-
-apply plugin: 'maven-publish'
 
 publishing {
     publications {
@@ -118,8 +90,6 @@ publishing {
         }
     }
 }
-
-apply plugin: 'bintray'
 
 // set bintrayUser & bintrayKey in gradle.properties
 bintray {

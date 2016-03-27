@@ -106,11 +106,15 @@ bintray {
         desc = projectDescription
         licenses = ['MIT']
     }
-    dryRun = true // whether to run this as dry-run, without deploying
+    dryRun = false // whether to run this as dry-run, without deploying
 }
 
 String getPropertyOrUseDefault(String propertyName, String defaultValue) {
     hasProperty(propertyName) ? getProperty(propertyName) : defaultValue
+}
+
+release {
+    tagTemplate = 'v$version'
 }
 
 afterReleaseBuild.dependsOn bintrayUpload

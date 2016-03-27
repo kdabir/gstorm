@@ -112,3 +112,5 @@ bintray {
 String getPropertyOrUseDefault(String propertyName, String defaultValue) {
     hasProperty(propertyName) ? getProperty(propertyName) : defaultValue
 }
+
+afterReleaseBuild.dependsOn bintrayUpload

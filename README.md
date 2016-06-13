@@ -1,6 +1,7 @@
 GStorm - Groovy Single Table ORM
 ---
-Gstorm is very light persistence helper for simple scenarios such as groovy scripts.
+GStorm is a light-weight persistence helper that lets you persist data without any boilerplate code. Also it can act as
+and ORM for CSV files.
 
 #### Example
 ```groovy
@@ -34,7 +35,7 @@ To see gstorm in action just execute following from command line:
 groovy https://raw.github.com/kdabir/gstorm/master/examples/getting_started.groovy
 ``` 
 
-Provided you have [groovy installed](http://groovy.codehaus.org/Installing+Groovy), you don't need to install
+Provided you have [groovy installed](http://groovy-lang.org/install.html), you don't need to install
 anything else.
 
 ----
@@ -67,10 +68,12 @@ Gstorm uses HSQLDB syntax internally.
 
 ##Getting started
 
+GStorm is available in [jcenter](http://jcenter.bintray.com/io/github/kdabir/gstorm/gstorm) repository
 Grab GStorm using 
+
 ```groovy
-@GrabResolver(name='gstorm', root='http://dl.bintray.com/kdabir/maven')
-@GrabConfig(systemClassLoader = true) @Grab('gstorm:gstorm:0.6')
+@GrabConfig(systemClassLoader = true)
+@Grab('io.github.kdabir.gstorm:gstorm:0.7.1')
 ```
 
 Create instance of `Gstorm`
@@ -107,6 +110,10 @@ Gstorm is tiny project with very specific use case. There is long list of items 
 feature complete. The project is under active development and is not yet suitable for production grade applications.
 
 ## Changelog :
+
+### v0.7.1
+- infrastructural changes to build and release
+- added to jcenter repo
 
 ### v0.7
 - support `@WithoutId` annotation to map to tables that do not have any id field and hence classes will not have id specific methods

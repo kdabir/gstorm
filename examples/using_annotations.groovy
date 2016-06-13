@@ -2,9 +2,8 @@
  * Using Annotations
  */
 
-@GrabResolver(name='gstorm', root='http://dl.bintray.com/kdabir/maven')
 @GrabConfig(systemClassLoader = true)
-@Grab('gstorm:gstorm:0.6')
+@Grab('io.github.kdabir.gstorm:gstorm:0.7.1')
 @Grab('org.hsqldb:hsqldb:2.3.2')
 import groovy.sql.*
 import gstorm.*

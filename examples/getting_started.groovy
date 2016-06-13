@@ -1,5 +1,5 @@
-@GrabResolver(name='gstorm', root='http://dl.bintray.com/kdabir/maven')
-@GrabConfig(systemClassLoader = true) @Grab('gstorm:gstorm:0.6')
+@GrabConfig(systemClassLoader = true)
+@Grab('io.github.kdabir.gstorm:gstorm:0.7.1')
 import gstorm.*
 
 @Table("people")

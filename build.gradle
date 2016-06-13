@@ -116,6 +116,11 @@ String getPropertyOrUseDefault(String propertyName, String defaultValue) {
 
 release {
     tagTemplate = 'v$version'
+
+    if (System.env.CI == 'true') { // only on CI servers
+        failOnUnversionedFiles = false
+    }
+
 }
 
 afterReleaseBuild.dependsOn bintrayUpload

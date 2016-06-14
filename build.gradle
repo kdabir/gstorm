@@ -106,6 +106,7 @@ bintray {
         name = projectName          // somehow project.* doesn't work in this closure
         desc = projectDescription
         licenses = ['MIT']
+        vcsUrl = 'https://github.com/kdabir/gstorm'
     }
     dryRun = false // whether to run this as dry-run, without deploying
 }

@@ -19,8 +19,8 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.7'
-    compile 'org.hsqldb:hsqldb:2.3.3'
+    compile 'org.codehaus.groovy:groovy-all:2.4.11'
+    compile 'org.hsqldb:hsqldb:2.4.0'
     testCompile 'junit:junit:4.10'
     testCompile 'io.github.kdabir.directree:directree:0.3.0'
 }

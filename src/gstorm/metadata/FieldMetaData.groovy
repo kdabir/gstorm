@@ -5,7 +5,7 @@ import gstorm.helpers.TypeMapper
 import java.lang.reflect.Field
 
 class FieldMetaData {
-    def type, name, columnName, columnType
+    String type, name, columnName, columnType
 
     FieldMetaData(Field field) {
         this.type = field.type

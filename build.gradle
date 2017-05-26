@@ -2,8 +2,8 @@ plugins {
     id 'groovy'
     id 'maven-publish'
     id 'jacoco'
-    id "com.jfrog.bintray" version '1.6'
-    id 'net.researchgate.release' version '2.3.5'
+    id "com.jfrog.bintray" version '1.7.3'
+    id 'net.researchgate.release' version '2.6.0'
 }
 
 group = 'io.github.kdabir.gstorm'

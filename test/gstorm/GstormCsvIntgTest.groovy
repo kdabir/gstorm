@@ -17,15 +17,16 @@ class GstormCsvIntgTest {
         DirTree.create("tmp") {
             dir("csvtest") {
                 file("test1.csv") {
-                    """|id,name
-                       |1,test
+                    """|id,name,age
+                       |1,test,10
+                       |2,best,20
                    """.stripMargin("|")
                 }
             }
         }
-        sql = Sql.newInstance("jdbc:hsqldb:file:tmp/csvtest/db", "sa", "", "org.hsqldb.jdbc.JDBCDriver")
-        gstorm = new Gstorm(sql)
-        gstorm.stormify(ClassWithCsvAnnotation)
+
+        gstorm = new Gstorm("tmp/csvtest/db").stormify(ClassWithCsvAnnotation)
+        sql = gstorm.sql
     }
 
     @After
@@ -38,7 +39,7 @@ class GstormCsvIntgTest {
     void "should load the data from CSV"() {
         gstorm.setCsvFile(ClassWithCsvAnnotation, 'test1.csv;ignore_first=true')
 
-        assert ClassWithCsvAnnotation.all.size() == 1
+        assert ClassWithCsvAnnotation.all.size() == 2
     }
 
     @Test
@@ -46,7 +47,7 @@ class GstormCsvIntgTest {
         gstorm.setCsvFile(ClassWithCsvAnnotation, 'test1.csv;ignore_first=true')
         new ClassWithCsvAnnotation(name: "another_text_123").save()
 
-        assert ClassWithCsvAnnotation.all.size() == 2
+        assert ClassWithCsvAnnotation.all.size() == 3
         assert new File("tmp/csvtest/test1.csv").text.contains("another_text_123")
     }
 

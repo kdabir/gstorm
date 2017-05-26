@@ -43,7 +43,7 @@ class CreateTableQueryBuilderTest extends GroovyTestCase {
 
         assert builder.build() == "CREATE TEXT TABLE IF NOT EXISTS ClassWithCsvAnnotation (" +
                 "ID NUMERIC GENERATED ALWAYS AS IDENTITY PRIMARY KEY, " +
-                "name VARCHAR(255))"
+                "name VARCHAR(255), age NUMERIC)"
     }
 }
 

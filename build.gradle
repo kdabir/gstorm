@@ -2,8 +2,9 @@ plugins {
     id 'groovy'
     id 'maven-publish'
     id 'jacoco'
-    id "com.jfrog.bintray" version '1.7.3'
-    id 'net.researchgate.release' version '2.6.0'
+    id "com.jfrog.bintray" version '1.8.4'
+    id "pl.allegro.tech.build.axion-release" version "1.9.3"
+    id "com.dorongold.task-tree" version "1.3.1"
 }
 
 group = 'io.github.kdabir.gstorm'
@@ -115,16 +116,52 @@ String getPropertyOrUseDefault(String propertyName, String defaultValue) {
     hasProperty(propertyName) ? getProperty(propertyName) : defaultValue
 }
 
-release {
-    tagTemplate = 'v$version'
+// Drawback in inferring version from git is project can not be built/released without git history in place.
 
-    if (System.env.CI == 'true') { // only on CI servers
-        failOnUnversionedFiles = false
+scmVersion {
+    // release using git info. tag as v<x.y.z>.
+    tag {
+        prefix = 'v'
+        versionSeparator = ''
     }
 
-}
+    // Do not push using inbuilt git. use native CLI git.
+    localOnly = true
 
-afterReleaseBuild.dependsOn bintrayUpload
+    hooks {
+        post { context ->
+            /// Pushing tags manually thru native git client because jgit requires authentication via a pop-up
+            println "pushing tag: v${context.currentVersion}"
+
+            exec {
+                commandLine 'git', 'push', 'origin', "v${context.currentVersion}"
+            }
+        }
+    }
+}
+// Important: infer project's version from scm (git)
+project.version = scmVersion.version
+
+/**
+
+ # Check current inferred version:
+ $ ./gradlew currentVersion
+
+
+ # Marking next version, which is non patch increment
+ $ ./gradlew markNextVersion -Prelease.nextVersion=2.0.0
+
+
+ # Releasing a version
+ $ ./gradlew release
+
+ # Dry Run
+ $ ./gradlew release -Prelease.dryRun
+
+ # Upload
+
+ */
+
 
 
 jacocoTestReport {

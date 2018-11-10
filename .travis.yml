@@ -9,6 +9,7 @@ script:
 
 jdk:
   - oraclejdk8
+  - openjdk8
+  - oraclejdk11
+  - openjdk11
 
-
-## To Release on CI ./gradlew release -Prelease.useAutomaticVersion=true

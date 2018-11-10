@@ -7,6 +7,52 @@ plugins {
     id "com.dorongold.task-tree" version "1.3.1"
 }
 
+// Drawback in inferring version from git is project can not be built/released without git history in place.
+
+scmVersion {
+    // release using git info. tag as v<x.y.z>.
+    tag {
+        prefix = 'v'
+        versionSeparator = ''
+    }
+
+    // Do not push using inbuilt git. use native CLI git.
+    localOnly = true
+
+    hooks {
+        post { context ->
+            /// Pushing tags manually thru native git client because jgit requires authentication via a pop-up
+            println "pushing tag: v${context.currentVersion}"
+
+            exec {
+                commandLine 'git', 'push', 'origin', "v${context.currentVersion}"
+            }
+        }
+    }
+}
+
+/**
+
+ # Check current inferred version:
+ $ ./gradlew currentVersion
+
+
+ # Marking next version, which is non patch increment
+ $ ./gradlew markNextVersion -Prelease.nextVersion=2.0.0
+
+ # Dry Run
+ $ ./gradlew release -Prelease.dryRun
+
+ # Releasing a version
+ $ ./gradlew release
+ 
+ # Upload
+ $ ./gradlew bintrayUpload
+ 
+ */
+
+// Important: infer project's version from scm (git), this must be configured after scmVersion block
+project.version = scmVersion.version
 group = 'io.github.kdabir.gstorm'
 description = "Groovy Single Table ORM"
 
@@ -115,52 +161,6 @@ bintray {
 String getPropertyOrUseDefault(String propertyName, String defaultValue) {
     hasProperty(propertyName) ? getProperty(propertyName) : defaultValue
 }
-
-// Drawback in inferring version from git is project can not be built/released without git history in place.
-
-scmVersion {
-    // release using git info. tag as v<x.y.z>.
-    tag {
-        prefix = 'v'
-        versionSeparator = ''
-    }
-
-    // Do not push using inbuilt git. use native CLI git.
-    localOnly = true
-
-    hooks {
-        post { context ->
-            /// Pushing tags manually thru native git client because jgit requires authentication via a pop-up
-            println "pushing tag: v${context.currentVersion}"
-
-            exec {
-                commandLine 'git', 'push', 'origin', "v${context.currentVersion}"
-            }
-        }
-    }
-}
-// Important: infer project's version from scm (git)
-project.version = scmVersion.version
-
-/**
-
- # Check current inferred version:
- $ ./gradlew currentVersion
-
-
- # Marking next version, which is non patch increment
- $ ./gradlew markNextVersion -Prelease.nextVersion=2.0.0
-
-
- # Releasing a version
- $ ./gradlew release
-
- # Dry Run
- $ ./gradlew release -Prelease.dryRun
-
- # Upload
-
- */
 
 
 

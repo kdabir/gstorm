@@ -3,8 +3,8 @@ package gstorm
 import groovy.sql.Sql
 import models.ClassWithDates
 import models.ClassWithNumbers
+
 import java.text.SimpleDateFormat
-import java.util.logging.Level
 
 class GstormDataTypesTest extends GroovyTestCase {
     Gstorm gstorm
@@ -14,7 +14,7 @@ class GstormDataTypesTest extends GroovyTestCase {
     void setUp() {
         sql = Sql.newInstance("jdbc:hsqldb:mem:database", "sa", "", "org.hsqldb.jdbc.JDBCDriver")
         gstorm = new Gstorm(sql)
-        gstorm.enableQueryLogging(Level.INFO)
+        gstorm.enableQueryLogging()
         gstorm.stormify(ClassWithDates)
         gstorm.stormify(ClassWithNumbers)
         dateFormat = new SimpleDateFormat("d/M/yyyy")

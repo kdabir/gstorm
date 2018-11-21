@@ -70,6 +70,7 @@ dependencies {
     compile 'org.hsqldb:hsqldb:2.4.1'
     compile 'org.slf4j:slf4j-api:1.7.9'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.codehaus.groovy:groovy-all:2.5.4'
     testCompile 'io.github.kdabir.directree:directree:0.3.0'
 }
 

@@ -93,12 +93,12 @@ jar {
 }
 
 task sourcesJar(type: Jar) {
-    classifier 'sources'
+    archiveClassifier 'sources'
     from sourceSets.main.allSource
 }
 
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
-    classifier 'groovydoc'
+    archiveClassifier 'groovydoc'
     from groovydoc.destinationDir
 }
 
@@ -172,6 +172,12 @@ String getPropertyOrUseDefault(String propertyName, String defaultValue) {
 }
 
 
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "short"
+    }
+}
 
 jacocoTestReport {
     reports {

@@ -56,6 +56,13 @@ project.version = scmVersion.version
 group = 'io.github.kdabir.gstorm'
 description = "Groovy Single Table ORM"
 
+
+/**
+ * Support Java8+ : as a library, we cannot enforce latest java version
+ */
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 sourceSets {
     main.groovy.srcDirs = ['src']
     test.groovy.srcDirs = ['test']
@@ -66,11 +73,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.codehaus.groovy:groovy-all:2.5.4'
+    compileOnly 'org.codehaus.groovy:groovy-all:2.5.6'
     compile 'org.hsqldb:hsqldb:2.4.1'
-    compile 'org.slf4j:slf4j-api:1.7.9'
+    compile 'org.slf4j:slf4j-api:1.7.26'
     testCompile 'junit:junit:4.12'
-    testCompile 'org.codehaus.groovy:groovy-all:2.5.4'
+    testCompile 'org.codehaus.groovy:groovy-all:2.5.6'
     testCompile 'io.github.kdabir.directree:directree:0.3.0'
 }
 

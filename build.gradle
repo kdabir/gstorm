@@ -175,7 +175,7 @@ String getPropertyOrUseDefault(String propertyName, String defaultValue) {
 test {
     testLogging {
         events "failed"
-        exceptionFormat "short"
+        exceptionFormat "full"
     }
 }
 

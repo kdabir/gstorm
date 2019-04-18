@@ -1,5 +1,6 @@
 package gstorm.metadata
 
+import groovy.transform.CompileStatic
 import gstorm.Csv
 import gstorm.Id
 import gstorm.Table
@@ -7,12 +8,13 @@ import gstorm.WithoutId
 
 import java.lang.reflect.Field
 
+@CompileStatic
 class ClassMetaData {
     final Class modelClass
     final String tableName
     final FieldMetaData idField
     private final List<FieldMetaData> fields
-    private Map _fieldsCache        // just to avoid iterating over list of fields and finding by name.
+    private Map<String, FieldMetaData> _fieldsCache        // just to avoid iterating over list of fields and finding by name.
 
     ClassMetaData(Class modelClass) {
         this.modelClass = modelClass
@@ -39,7 +41,7 @@ class ClassMetaData {
     }
 
     private String extractTableName(Class modelClass) {
-        modelClass.getAnnotation(Table)?.value()?.trim() ?: modelClass.simpleName
+        ( (Table) modelClass.getAnnotation(Table))?.value()?.trim() ?: modelClass.simpleName
     }
 
     boolean isWithoutId() {
@@ -61,8 +63,8 @@ class ClassMetaData {
         idField ? new FieldMetaData(idField) : null
     }
 
-    private ArrayList<Field> fieldsDeclaredIn(Class modelClass) {
-        modelClass.declaredFields.findAll { !it.synthetic }
+    private List<Field> fieldsDeclaredIn(Class modelClass) {
+        modelClass.declaredFields.findAll { !it.synthetic }.asList()
     }
 
 }

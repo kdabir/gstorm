@@ -1,7 +1,9 @@
 package gstorm.builders
 
+import groovy.transform.CompileStatic
 import gstorm.metadata.ClassMetaData
 
+@CompileStatic
 class CountQueryBuilder extends AbstractWhereableQueryBuilder {
 
     CountQueryBuilder(ClassMetaData classMetaData) {

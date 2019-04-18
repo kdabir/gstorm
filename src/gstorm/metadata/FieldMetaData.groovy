@@ -1,9 +1,11 @@
 package gstorm.metadata
 
+import groovy.transform.CompileStatic
 import gstorm.helpers.TypeMapper
 
 import java.lang.reflect.Field
 
+@CompileStatic
 class FieldMetaData {
     Class type
     String name, columnName, columnType

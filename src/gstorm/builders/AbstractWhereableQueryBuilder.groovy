@@ -1,10 +1,12 @@
 package gstorm.builders
 
+import groovy.transform.CompileStatic
 import gstorm.metadata.ClassMetaData
 
 /**
  * represents a builder that can have a where clause
  */
+@CompileStatic
 abstract class AbstractWhereableQueryBuilder extends AbstractQueryBuilder {
 
     AbstractWhereableQueryBuilder(ClassMetaData classMetaData) {

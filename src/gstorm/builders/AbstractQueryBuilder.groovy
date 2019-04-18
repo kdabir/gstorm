@@ -1,7 +1,9 @@
 package gstorm.builders
 
+import groovy.transform.CompileStatic
 import gstorm.metadata.ClassMetaData
 
+@CompileStatic
 abstract class AbstractQueryBuilder {
     public static final String SPACE = " "
 

@@ -1,5 +1,8 @@
 package gstorm.helpers
 
+import groovy.transform.CompileStatic
+
+@CompileStatic
 class DefaultTypeMapping {
     public static final String DEFAULT_TYPE = "VARCHAR(255)"
 

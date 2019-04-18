@@ -1,7 +1,9 @@
 package gstorm.builders
 
+import groovy.transform.CompileStatic
 import gstorm.metadata.ClassMetaData
 
+@CompileStatic
 class InsertQueryBuilder extends AbstractQueryBuilder {
 
     InsertQueryBuilder(ClassMetaData classMetaData) {

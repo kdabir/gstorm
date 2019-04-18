@@ -1,10 +1,13 @@
 package gstorm.helpers
 
+import groovy.transform.CompileStatic
+
 /**
  * Maintains global Java/Groovy to Sql type mappings. Mappings can be altered here.
  *
  */
 @Singleton
+@CompileStatic
 class TypeMapper {
     private Map<Class, String> mappings = new HashMap<>(DefaultTypeMapping.DEFAULT_MAPPINGS)
     def defaultType = DefaultTypeMapping.DEFAULT_TYPE

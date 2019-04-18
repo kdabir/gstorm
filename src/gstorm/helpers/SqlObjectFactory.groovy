@@ -1,10 +1,12 @@
 package gstorm.helpers
 
 import groovy.sql.Sql
+import groovy.transform.CompileStatic
 
 /**
  *
  */
+@CompileStatic
 class SqlObjectFactory {
 
     static Sql memoryDB() {

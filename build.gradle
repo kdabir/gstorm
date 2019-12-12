@@ -75,7 +75,7 @@ repositories {
 dependencies {
     compileOnly 'org.codehaus.groovy:groovy-all:2.5.6'
     compile 'org.hsqldb:hsqldb:2.4.1'
-    compile 'org.slf4j:slf4j-api:1.7.26'
+    compile 'org.slf4j:slf4j-api:1.7.29'
     testCompile 'junit:junit:4.12'
     testCompile 'org.codehaus.groovy:groovy-all:2.5.6'
     testCompile 'io.github.kdabir.directree:directree:0.3.0'

@@ -45,10 +45,10 @@ scmVersion {
 
  # Releasing a version
  $ ./gradlew release
- 
+
  # Upload
  $ ./gradlew bintrayUpload
- 
+
  */
 
 // Important: infer project's version from scm (git), this must be configured after scmVersion block
@@ -77,7 +77,7 @@ dependencies {
     compile 'org.hsqldb:hsqldb:2.4.1'
     compile 'org.slf4j:slf4j-api:1.7.30'
     testCompile 'junit:junit:4.12'
-    testCompile 'org.codehaus.groovy:groovy-all:2.5.6'
+    testCompile 'org.codehaus.groovy:groovy-all:3.0.3'
     testCompile 'io.github.kdabir.directree:directree:0.3.0'
 }
 

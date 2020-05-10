@@ -8,8 +8,6 @@ script:
   - TERM=dumb ./gradlew check
 
 jdk:
-  - oraclejdk8
   - openjdk8
-  - oraclejdk11
   - openjdk11
 

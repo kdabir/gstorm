@@ -66,7 +66,7 @@ Gstorm uses HSQLDB syntax internally.
 
 ---
 
-##Getting started
+## Getting started
 
 GStorm is available in [jcenter](http://jcenter.bintray.com/io/github/kdabir/gstorm/gstorm) repository
 Grab GStorm using 
@@ -102,8 +102,6 @@ Just go through the [example's source ](examples) and [test](test/gstorm) and ha
 ---
 
 ## Project status
-
-[![Build Status](https://travis-ci.org/kdabir/gstorm.png)](https://travis-ci.org/kdabir/gstorm)
 
 
 Gstorm is tiny project with very specific use case. There is long list of items that I would want to complete before calling it

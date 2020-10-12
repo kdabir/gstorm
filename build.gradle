@@ -76,7 +76,7 @@ dependencies {
     compileOnly 'org.codehaus.groovy:groovy-all:3.0.5'
     compile 'org.hsqldb:hsqldb:2.5.1'
     compile 'org.slf4j:slf4j-api:1.7.30'
-    testCompile 'junit:junit:4.13'
+    testCompile 'junit:junit:4.13.1'
     testCompile 'org.codehaus.groovy:groovy-all:3.0.5'
     testCompile 'io.github.kdabir.directree:directree:0.3.2'
 }

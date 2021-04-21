@@ -73,7 +73,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.codehaus.groovy:groovy-all:3.0.5'
+    compileOnly 'org.codehaus.groovy:groovy-all:3.0.8'
     compile 'org.hsqldb:hsqldb:2.5.1'
     compile 'org.slf4j:slf4j-api:1.7.30'
     testCompile 'junit:junit:4.13'
